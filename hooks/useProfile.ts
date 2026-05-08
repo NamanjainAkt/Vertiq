@@ -8,6 +8,8 @@ export interface UserProfile {
     email: string
     initials: string
     planType: 'free' | 'premium'
+    age: number | null
+    goalHeightCm: number | null
 }
 
 export function useProfile() {
@@ -19,7 +21,7 @@ export function useProfile() {
 
             const { data: profile } = await supabase
                 .from('profiles')
-                .select('display_name, plan_type')
+                .select('display_name, plan_type, age, goal_height_cm')
                 .eq('id', user.id)
                 .maybeSingle()
 
@@ -34,6 +36,8 @@ export function useProfile() {
                 email: user.email ?? '',
                 initials: getInitials(fullName),
                 planType: (profile?.plan_type as 'free' | 'premium') ?? 'free',
+                age: profile?.age ?? null,
+                goalHeightCm: profile?.goal_height_cm ?? null,
             }
         },
         placeholderData: {
@@ -41,6 +45,8 @@ export function useProfile() {
             email: demoUser.email,
             initials: demoUser.initials,
             planType: 'free',
+            age: 16,
+            goalHeightCm: 180,
         },
     })
 }

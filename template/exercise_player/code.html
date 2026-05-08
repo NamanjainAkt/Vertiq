@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Bebas+Neue&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "text-primary-light": "#0D1117",
+                    "on-primary-fixed-variant": "#005227",
+                    "glow-red": "#FF3D5A",
+                    "error-container": "#93000a",
+                    "inverse-primary": "#006d36",
+                    "secondary": "#8bd5ff",
+                    "inverse-surface": "#e5e2e1",
+                    "text-primary-dark": "#FFFFFF",
+                    "surface-container-high": "#2a2a2a",
+                    "on-secondary": "#003549",
+                    "surface-container-lowest": "#0e0e0e",
+                    "primary-fixed-dim": "#00e478",
+                    "bg-base-dark": "#000000",
+                    "outline": "#849585",
+                    "tertiary-fixed-dim": "#e1b6ff",
+                    "primary": "#f1ffef",
+                    "secondary-fixed": "#c3e8ff",
+                    "bg-base-light": "#F4F6F9",
+                    "on-tertiary-container": "#9021db",
+                    "on-error-container": "#ffdad6",
+                    "on-background": "#e5e2e1",
+                    "outline-variant": "#3b4b3d",
+                    "tertiary-container": "#f0d5ff",
+                    "on-primary-container": "#007138",
+                    "on-error": "#690005",
+                    "secondary-fixed-dim": "#7ad0ff",
+                    "surface-container-low": "#1c1b1b",
+                    "error": "#ffb4ab",
+                    "primary-container": "#00ff87",
+                    "secondary-container": "#00bdfd",
+                    "on-tertiary-fixed": "#2e004d",
+                    "on-secondary-container": "#004964",
+                    "on-secondary-fixed": "#001e2c",
+                    "surface-tint": "#00e478",
+                    "surface-container-highest": "#353535",
+                    "text-secondary-dark": "#A0A0A0",
+                    "tertiary-fixed": "#f2daff",
+                    "on-surface-variant": "#b9cbb9",
+                    "on-primary-fixed": "#00210c",
+                    "surface": "#131313",
+                    "primary-fixed": "#60ff98",
+                    "inverse-on-surface": "#313030",
+                    "surface-dim": "#131313",
+                    "on-tertiary-fixed-variant": "#6d00ac",
+                    "surface-variant": "#353535",
+                    "bg-surface-dark": "#0A0A0A",
+                    "bg-elevated-dark": "#111111",
+                    "background": "#131313",
+                    "accent-amber": "#E07B00",
+                    "on-secondary-fixed-variant": "#004c69",
+                    "tertiary": "#fffafb",
+                    "on-primary": "#003919",
+                    "on-tertiary": "#4c007b",
+                    "surface-bright": "#393939",
+                    "surface-container": "#20201f",
+                    "on-surface": "#e5e2e1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "md": "16px",
+                    "xl": "32px",
+                    "section-gap": "24px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "base": "4px",
+                    "screen-edge": "20px"
+            },
+            "fontFamily": {
+                    "data-mono": ["JetBrains Mono"],
+                    "heading-2": ["Plus Jakarta Sans"],
+                    "display-xl": ["Bebas Neue"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "label-caps": ["Plus Jakarta Sans"],
+                    "heading-1": ["Plus Jakarta Sans"],
+                    "display-lg": ["Bebas Neue"]
+            },
+            "fontSize": {
+                    "data-mono": ["13px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "heading-2": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "display-xl": ["120px", {"lineHeight": "1", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"letterSpacing": "0.08em", "fontWeight": "500"}],
+                    "heading-1": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "display-lg": ["40px", {"lineHeight": "1.1", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #000000; overflow: hidden; }
+        .timer-glow {
+            text-shadow: 0 0 20px rgba(0, 228, 120, 0.6), 0 0 40px rgba(0, 228, 120, 0.3);
+        }
+        .pulse-layer {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            50% { transform: scale(1.05); opacity: 0.2; }
+            100% { transform: scale(0.95); opacity: 0.5; }
+        }
+        .figure-glow {
+            filter: drop-shadow(0 0 8px rgba(0, 228, 120, 0.4));
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-background antialiased flex flex-col min-h-screen">
+<!-- Top Navigation Anchor (Manual Suppression of Shell as this is a focused Journey) -->
+<header class="w-full flex justify-between items-center px-screen-edge py-md z-50">
+<div class="flex items-center gap-sm">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container hover:bg-surface-container-high transition-colors active:scale-95">
+<span class="material-symbols-outlined text-on-surface">close</span>
+</button>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-primary-fixed-dim uppercase">Active Session</span>
+<h1 class="font-heading-2 text-heading-2 text-on-surface">Posture Reset</h1>
+</div>
+</div>
+<div class="bg-surface-container-low px-md py-xs rounded-full border border-outline-variant">
+<span class="font-data-mono text-data-mono text-primary-fixed-dim">3 / 6</span>
+</div>
+</header>
+<!-- Main Player Canvas -->
+<main class="flex-1 flex flex-col items-center justify-center relative px-screen-edge">
+<!-- Timer Section -->
+<div class="text-center mb-xl relative">
+<div class="pulse-layer absolute inset-0 bg-primary-container/5 rounded-full blur-3xl -z-10"></div>
+<span class="font-display-xl text-display-xl text-primary-fixed-dim timer-glow tracking-tighter">00:45</span>
+<p class="font-label-caps text-label-caps text-on-surface-variant tracking-widest mt-sm">STRETCH PHASE</p>
+</div>
+<!-- Exercise Visualization -->
+<div class="w-full max-w-sm aspect-square flex items-center justify-center relative">
+<!-- Central SVG Illustration (Realignment Stretch) -->
+<svg class="w-full h-full figure-glow" fill="none" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<circle class="text-outline-variant/30" cx="100" cy="100" r="90" stroke="currentColor" stroke-width="0.5"></circle>
+<!-- Stylized Clinical Humanoid Figure -->
+<g class="text-primary-fixed-dim">
+<circle cx="100" cy="45" fill="currentColor" opacity="0.9" r="8"></circle>
+<path d="M100 53V110" stroke="currentColor" stroke-linecap="round" stroke-width="6"></path>
+<path d="M100 65L140 45" stroke="currentColor" stroke-linecap="round" stroke-width="5"></path>
+<path d="M100 65L60 45" stroke="currentColor" stroke-linecap="round" stroke-width="5"></path>
+<path d="M100 110L85 165" stroke="currentColor" stroke-linecap="round" stroke-width="6"></path>
+<path d="M100 110L115 165" stroke="currentColor" stroke-linecap="round" stroke-width="6"></path>
+</g>
+<!-- Flow indicators -->
+<path d="M145 60C160 80 160 120 145 140" stroke="#00e478" stroke-dasharray="4 4" stroke-width="2"></path>
+<path d="M55 60C40 80 40 120 55 140" stroke="#00e478" stroke-dasharray="4 4" stroke-width="2"></path>
+</svg>
+<!-- Floating Progress Ring -->
+<div class="absolute inset-0 rotate-[-90deg]">
+<svg class="w-full h-full" viewbox="0 0 100 100">
+<circle class="text-outline-variant/20" cx="50" cy="50" fill="none" r="48" stroke="currentColor" stroke-width="1.5"></circle>
+<circle class="text-primary-fixed-dim" cx="50" cy="50" fill="none" r="48" stroke="currentColor" stroke-dasharray="301.59" stroke-dashoffset="75.4" stroke-width="2"></circle>
+</svg>
+</div>
+</div>
+<!-- Exercise Name / Subtext -->
+<div class="mt-xl text-center">
+<h2 class="font-heading-1 text-heading-1 text-on-surface mb-xs">Wall Chest Opener</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xs mx-auto">Keep your shoulders pinned and breathe deeply into your ribs.</p>
+</div>
+</main>
+<!-- Bottom Controls -->
+<footer class="w-full px-screen-edge pb-xl pt-lg flex flex-col gap-lg">
+<!-- Progress Bar (Linear) -->
+<div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary-fixed-dim w-1/2 rounded-full"></div>
+</div>
+<!-- Action Buttons -->
+<div class="flex items-center justify-between gap-md">
+<!-- Skip Button -->
+<button class="flex-1 flex flex-col items-center justify-center py-md bg-surface-container-low rounded-xl border border-outline-variant hover:bg-surface-container transition-all active:scale-95 group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-surface">skip_next</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant mt-xs">Skip</span>
+</button>
+<!-- Play/Pause (Central Rest) -->
+<button class="w-20 h-20 flex flex-col items-center justify-center bg-primary-fixed text-on-primary-fixed rounded-full shadow-[0_0_25px_rgba(0,228,120,0.4)] active:scale-90 transition-all hover:opacity-90">
+<span class="material-symbols-outlined text-4xl" data-weight="fill">pause</span>
+<span class="font-label-caps text-label-caps font-bold">REST</span>
+</button>
+<!-- Done Button -->
+<button class="flex-1 flex flex-col items-center justify-center py-md bg-surface-container-low rounded-xl border border-outline-variant hover:bg-surface-container transition-all active:scale-95 group">
+<span class="material-symbols-outlined text-primary-fixed-dim group-hover:scale-110 transition-transform">check_circle</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant mt-xs">Done</span>
+</button>
+</div>
+</footer>
+<!-- Overlay Background Elements -->
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none -z-20 overflow-hidden">
+<!-- Bio-glow effects -->
+<div class="absolute top-[20%] left-[-10%] w-[50%] h-[50%] bg-primary-container/10 blur-[120px] rounded-full"></div>
+<div class="absolute bottom-[10%] right-[-10%] w-[40%] h-[40%] bg-secondary-container/5 blur-[100px] rounded-full"></div>
+</div>
+</body></html>

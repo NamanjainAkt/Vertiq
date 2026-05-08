@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Bebas+Neue&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "text-primary-light": "#0D1117",
+                        "on-primary-fixed-variant": "#005227",
+                        "glow-red": "#FF3D5A",
+                        "error-container": "#93000a",
+                        "inverse-primary": "#006d36",
+                        "secondary": "#8bd5ff",
+                        "inverse-surface": "#e5e2e1",
+                        "text-primary-dark": "#FFFFFF",
+                        "surface-container-high": "#2a2a2a",
+                        "on-secondary": "#003549",
+                        "surface-container-lowest": "#0e0e0e",
+                        "primary-fixed-dim": "#00e478",
+                        "bg-base-dark": "#000000",
+                        "outline": "#849585",
+                        "tertiary-fixed-dim": "#e1b6ff",
+                        "primary": "#f1ffef",
+                        "secondary-fixed": "#c3e8ff",
+                        "bg-base-light": "#F4F6F9",
+                        "on-tertiary-container": "#9021db",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#e5e2e1",
+                        "outline-variant": "#3b4b3d",
+                        "tertiary-container": "#f0d5ff",
+                        "on-primary-container": "#007138",
+                        "on-error": "#690005",
+                        "secondary-fixed-dim": "#7ad0ff",
+                        "surface-container-low": "#1c1b1b",
+                        "error": "#ffb4ab",
+                        "primary-container": "#00ff87",
+                        "secondary-container": "#00bdfd",
+                        "on-tertiary-fixed": "#2e004d",
+                        "on-secondary-container": "#004964",
+                        "on-secondary-fixed": "#001e2c",
+                        "surface-tint": "#00e478",
+                        "surface-container-highest": "#353535",
+                        "text-secondary-dark": "#A0A0A0",
+                        "tertiary-fixed": "#f2daff",
+                        "on-surface-variant": "#b9cbb9",
+                        "on-primary-fixed": "#00210c",
+                        "surface": "#131313",
+                        "primary-fixed": "#60ff98",
+                        "inverse-on-surface": "#313030",
+                        "surface-dim": "#131313",
+                        "on-tertiary-fixed-variant": "#6d00ac",
+                        "surface-variant": "#353535",
+                        "bg-surface-dark": "#0A0A0A",
+                        "bg-elevated-dark": "#111111",
+                        "background": "#131313",
+                        "accent-amber": "#E07B00",
+                        "on-secondary-fixed-variant": "#004c69",
+                        "tertiary": "#fffafb",
+                        "on-primary": "#003919",
+                        "on-tertiary": "#4c007b",
+                        "surface-bright": "#393939",
+                        "surface-container": "#20201f",
+                        "on-surface": "#e5e2e1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "section-gap": "24px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "base": "4px",
+                        "screen-edge": "20px"
+                    },
+                    "fontFamily": {
+                        "data-mono": ["JetBrains Mono"],
+                        "heading-2": ["Plus Jakarta Sans"],
+                        "display-xl": ["Bebas Neue"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "heading-1": ["Plus Jakarta Sans"],
+                        "display-lg": ["Bebas Neue"]
+                    },
+                    "fontSize": {
+                        "data-mono": ["13px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "heading-2": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display-xl": ["56px", {"lineHeight": "1.1", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"letterSpacing": "0.08em", "fontWeight": "500"}],
+                        "heading-1": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "display-lg": ["40px", {"lineHeight": "1.1", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .gh-glow {
+            box-shadow: 0 0 25px -5px rgba(0, 228, 120, 0.4);
+        }
+        .sleep-stage-gradient {
+            background: linear-gradient(180deg, rgba(139, 213, 255, 0.1) 0%, rgba(139, 213, 255, 0) 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-lg">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky flex justify-between items-center px-screen-edge py-sm z-50 bg-background transition-opacity hover:opacity-80">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface cursor-pointer active:scale-95">arrow_back</span>
+<h1 class="font-display-lg text-display-lg tracking-wider text-primary-fixed">TallUp</h1>
+</div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer active:scale-95" data-icon="edit">edit</span>
+<span class="material-symbols-outlined text-glow-red cursor-pointer active:scale-95" data-icon="delete">delete</span>
+</div>
+</header>
+<main class="px-screen-edge pb-32">
+<!-- Date & Primary Metric Section -->
+<section class="py-lg">
+<div class="flex justify-between items-end mb-md">
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-xs">Tuesday, Oct 24</p>
+<h2 class="font-heading-1 text-heading-1">Last Night's Session</h2>
+</div>
+<div class="text-right">
+<p class="font-display-xl text-display-xl text-primary-fixed-dim">84<span class="text-display-lg text-on-surface-variant">/100</span></p>
+<p class="font-label-caps text-label-caps text-on-surface-variant">QUALITY SCORE</p>
+</div>
+</div>
+</section>
+<!-- Bento Grid Layout for Summary Stats -->
+<div class="grid grid-cols-2 gap-md mb-section-gap">
+<!-- Duration Card -->
+<div class="bg-surface-container-low border border-outline-variant p-md rounded-xl">
+<div class="flex items-center gap-xs mb-sm">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="schedule">schedule</span>
+<p class="font-label-caps text-label-caps text-on-surface-variant">DURATION</p>
+</div>
+<p class="font-heading-1 text-heading-1 text-text-primary-dark">8h 12m</p>
+<p class="font-data-mono text-data-mono text-secondary mt-xs">+45m vs Avg</p>
+</div>
+<!-- GH Window Card -->
+<div class="bg-surface-container-low border border-primary-container/30 gh-glow p-md rounded-xl">
+<div class="flex items-center gap-xs mb-sm">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[20px]" data-icon="bolt">bolt</span>
+<p class="font-label-caps text-label-caps text-primary-fixed-dim">GH WINDOW</p>
+</div>
+<p class="font-heading-1 text-heading-1 text-primary-fixed-dim">100%</p>
+<p class="font-data-mono text-data-mono text-on-primary-fixed-variant mt-xs">Optimal Growth</p>
+</div>
+</div>
+<!-- Hypnogram / Timeline Visualization -->
+<section class="mb-section-gap">
+<h3 class="font-heading-2 text-heading-2 mb-md">Sleep Stages</h3>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md overflow-hidden relative">
+<!-- Timeline Header -->
+<div class="flex justify-between font-data-mono text-data-mono text-on-surface-variant mb-xl">
+<span>10:30 PM</span>
+<span>2:00 AM</span>
+<span>7:42 AM</span>
+</div>
+<!-- Visual Graph Area -->
+<div class="h-48 flex items-end gap-[2px]">
+<!-- Bedtime -->
+<div class="h-[10%] w-full bg-on-surface-variant/20 rounded-t-xs"></div>
+<!-- REM -->
+<div class="h-[60%] w-full bg-secondary-container rounded-t-xs"></div>
+<!-- Light -->
+<div class="h-[40%] w-full bg-secondary-fixed-dim/40 rounded-t-xs"></div>
+<!-- Deep / GH Window Highlight -->
+<div class="h-[90%] w-full bg-primary-fixed-dim rounded-t-xs relative">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2">
+<span class="material-symbols-outlined text-primary-fixed-dim text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<div class="h-[85%] w-full bg-primary-fixed-dim rounded-t-xs"></div>
+<!-- REM -->
+<div class="h-[55%] w-full bg-secondary-container rounded-t-xs"></div>
+<!-- Deep -->
+<div class="h-[95%] w-full bg-primary-fixed-dim rounded-t-xs"></div>
+<!-- Light -->
+<div class="h-[45%] w-full bg-secondary-fixed-dim/40 rounded-t-xs"></div>
+<!-- REM -->
+<div class="h-[70%] w-full bg-secondary-container rounded-t-xs"></div>
+<!-- Wake -->
+<div class="h-[5%] w-full bg-on-surface-variant/40 rounded-t-xs"></div>
+</div>
+<!-- Growth Hormone Window Overlay Legend -->
+<div class="mt-md pt-md border-t border-outline-variant/30 flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-3 h-3 rounded-full bg-primary-fixed-dim"></div>
+<p class="font-label-caps text-label-caps text-on-surface">GH Release (Deep Sleep)</p>
+</div>
+<p class="font-data-mono text-data-mono text-primary-fixed-dim">2h 45m</p>
+</div>
+</div>
+</section>
+<!-- Detailed Metrics List -->
+<section class="space-y-md mb-xl">
+<div class="flex items-center justify-between p-md bg-surface-container-high rounded-xl border border-outline-variant">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-secondary" data-icon="vital_signs">vital_signs</span>
+<div>
+<p class="font-heading-2 text-heading-2 text-text-primary-dark">52 <span class="text-body-lg text-on-surface-variant">BPM</span></p>
+<p class="font-label-caps text-label-caps text-on-surface-variant">RESTING HEART RATE</p>
+</div>
+</div>
+<div class="text-right">
+<span class="material-symbols-outlined text-primary-fixed-dim" data-icon="trending_down">trending_down</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-md bg-surface-container-high rounded-xl border border-outline-variant">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" data-icon="air">air</span>
+<div>
+<p class="font-heading-2 text-heading-2 text-text-primary-dark">14 <span class="text-body-lg text-on-surface-variant">BR/M</span></p>
+<p class="font-label-caps text-label-caps text-on-surface-variant">RESPIRATORY RATE</p>
+</div>
+</div>
+<div class="text-right">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="remove">remove</span>
+</div>
+</div>
+</section>
+<!-- Recovery Insight -->
+<div class="relative w-full aspect-video rounded-xl overflow-hidden mb-xl border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A cinematic, high-contrast photograph of a person in a deep, peaceful sleep within a modern, minimalist bedroom. The lighting is low-key with cool blue ambient glows and sharp neon green highlights tracing the silhouette, evoking a sense of high-tech biometric optimization. The atmosphere is clinical yet serene, emphasizing biological recovery and hormonal growth during the night." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDR96vjwviSswLWOYhIMyjFXa5PWU9nEjKvpyMbiow1w09Cynq0C7Q0exw8i-rZ_neIDutPeCu4SKvNWgV6IuPNd_U_DZq2Zwvz4jlFe2NCNDkUAMSEe68IHE-JHemMVRUUGwRpTmAKp9rMYCmeap3cESFTk5w816lHUFrThrEPsi8QAMBm37U4XU82wdbWmB4oNcqvCbLKBfVRKz05X7UdBa91ET9Qe4sv7qkOJm5XRi528_mQt0fhdeiMiRM0L5F0aV35ajV2JGc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent flex flex-col justify-end p-md">
+<h4 class="font-heading-2 text-heading-2 text-primary-fixed mb-xs">Growth Maximized</h4>
+<p class="text-on-surface-variant text-sm">Your consistent 10 PM bedtime has allowed for a complete 3-cycle Growth Hormone window. Muscle repair is currently peaking.</p>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-xs pb-safe h-[80px] z-50 bg-surface-container-lowest border-t border-outline-variant shadow-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span class="font-label-caps text-label-caps">Growth</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="event_repeat">event_repeat</span>
+<span class="font-label-caps text-label-caps">Routine</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary-fixed-dim font-bold bg-primary-container/10 rounded-xl px-2 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="bedtime" style="font-variation-settings: 'FILL' 1;">bedtime</span>
+<span class="font-label-caps text-label-caps">Sleep</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant">restaurant</span>
+<span class="font-label-caps text-label-caps">Nutrition</span>
+</a>
+</nav>
+</body></html>

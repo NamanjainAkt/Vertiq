@@ -21,12 +21,16 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
 import { useFonts } from 'expo-font'
 import {
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_600SemiBold,
-  Inter_700Bold,
-  Inter_800ExtraBold,
-} from '@expo-google-fonts/inter'
+  PlusJakartaSans_400Regular,
+  PlusJakartaSans_500Medium,
+  PlusJakartaSans_600SemiBold,
+  PlusJakartaSans_700Bold,
+  PlusJakartaSans_800ExtraBold,
+} from '@expo-google-fonts/plus-jakarta-sans'
+import {
+  JetBrainsMono_400Regular,
+  JetBrainsMono_700Bold,
+} from '@expo-google-fonts/jetbrains-mono'
 import { ThemeProvider, DarkTheme } from '@react-navigation/native'
 import { PostHogProvider } from 'posthog-react-native'
 import { I18nextProvider } from 'react-i18next'
@@ -118,11 +122,14 @@ function ScreenTracker() {
 function RootLayout() {
   const navigationRef = useNavigationContainerRef()
   const [fontsLoaded] = useFonts({
-    Inter_400Regular,
-    Inter_500Medium,
-    Inter_600SemiBold,
-    Inter_700Bold,
-    Inter_800ExtraBold,
+    PlusJakartaSans_400Regular,
+    PlusJakartaSans_500Medium,
+    PlusJakartaSans_600SemiBold,
+    PlusJakartaSans_700Bold,
+    PlusJakartaSans_800ExtraBold,
+    JetBrainsMono_400Regular,
+    JetBrainsMono_700Bold,
+    BebasNeue: require('../assets/fonts/BebasNeue-Regular.ttf'),
   })
 
   // null = still checking; true/false = auth state known
@@ -249,6 +256,13 @@ function RootLayout() {
                         <Stack.Protected guard={!!isAuthed && onboardingCompleted === true}>
                           <Stack.Screen name="(tabs)" />
                           <Stack.Screen name="detail/[id]" />
+                          <Stack.Screen name="detail/log-height" />
+                          <Stack.Screen name="detail/routine-detail" />
+                          <Stack.Screen name="detail/exercise-player" />
+                          <Stack.Screen name="detail/growth-projection" />
+                          <Stack.Screen name="detail/sleep-log" />
+                          <Stack.Screen name="detail/nutrition-detail" />
+                          <Stack.Screen name="detail/achievements" />
                           <Stack.Screen name="settings" />
                           <Stack.Screen name="support" />
                         </Stack.Protected>

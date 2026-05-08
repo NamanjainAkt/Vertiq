@@ -9,24 +9,16 @@ import Animated, {
 } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { BlurView } from 'expo-blur'
-import {
-  TAB_ACTIVE,
-  TAB_INACTIVE,
-  TAB_HEIGHT,
-  BG,
-} from '@/lib/theme'
+import { dark } from '@/lib/theme'
 import { Text } from '@/components/ui/Text'
+import { Fonts } from '@/lib/typography'
 
-// ─── Tab icon definitions ─────────────────────────────────────────────────────
-// Add new tabs here after creating the corresponding app/(tabs)/<name>.tsx file.
-
-const ICON_SIZE = 26
-const INDICATOR_W = 40
+const ICON_SIZE = 24
 const EASE_OUT = Easing.out(Easing.cubic)
 const EASE_IN = Easing.in(Easing.cubic)
 
-export const TAB_BAR_HEIGHT = TAB_HEIGHT
-export const TAB_BAR_CLEARANCE = TAB_HEIGHT + 4
+export const TAB_BAR_HEIGHT = 80
+export const TAB_BAR_CLEARANCE = 84
 
 // ─── Single tab item ──────────────────────────────────────────────────────────
 
@@ -41,18 +33,7 @@ function TabItem({
   onPress: () => void
   icon?: React.ReactNode
 }) {
-  const indicatorW = useSharedValue(isActive ? INDICATOR_W : 0)
   const pressOpacity = useSharedValue(1)
-
-  useEffect(() => {
-    indicatorW.value = withTiming(isActive ? INDICATOR_W : 0, {
-      duration: isActive ? 200 : 150,
-      easing: isActive ? EASE_OUT : EASE_IN,
-    })
-  }, [isActive])
-
-  const indicatorStyle = useAnimatedStyle(() => ({ width: indicatorW.value }))
-  const pressStyle = useAnimatedStyle(() => ({ opacity: pressOpacity.value }))
 
   return (
     <Pressable
@@ -63,14 +44,14 @@ function TabItem({
       accessibilityRole="tab"
       accessibilityState={{ selected: isActive }}
     >
-      {/* Active indicator line at top */}
-      <Animated.View style={[s.indicator, indicatorStyle]} />
-
-      <Animated.View style={[s.tabInner, pressStyle]}>
+      <Animated.View style={[s.tabInner, { opacity: pressOpacity }]}>
         {icon}
-        <Text style={[s.label, isActive && s.labelActive]} numberOfLines={1}>
-          {label}
-        </Text>
+        {/* Only show label when active (TallUp spec) */}
+        {isActive && (
+          <Text style={s.labelActive} numberOfLines={1}>
+            {label}
+          </Text>
+        )}
       </Animated.View>
     </Pressable>
   )
@@ -96,7 +77,7 @@ export default function TabBar({ state, navigation, descriptors }: BottomTabBarP
           ? options.tabBarLabel
           : (options.title ?? route.name)
         const icon = options.tabBarIcon?.({
-          color: isActive ? TAB_ACTIVE : TAB_INACTIVE,
+          color: isActive ? dark.glowGreen : dark.textMuted,
           size: ICON_SIZE,
           focused: isActive,
         })
@@ -131,7 +112,7 @@ export default function TabBar({ state, navigation, descriptors }: BottomTabBarP
     <View style={[s.wrapper, s.wrapperAndroid]}>
       {tabs}
       {insets.bottom > 0 && (
-        <View style={{ height: insets.bottom, backgroundColor: BG }} />
+        <View style={{ height: insets.bottom, backgroundColor: dark.bgBase }} />
       )}
     </View>
   )
@@ -142,38 +123,33 @@ export default function TabBar({ state, navigation, descriptors }: BottomTabBarP
 const s = StyleSheet.create({
   wrapper: {
     position: 'absolute', left: 0, right: 0, bottom: 0,
-    borderTopLeftRadius: 20, borderTopRightRadius: 20,
     overflow: 'hidden',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -4 },
     shadowOpacity: 0.3, shadowRadius: 12,
     elevation: 20,
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: 'rgba(255,255,255,0.08)',
+    borderTopColor: dark.bgBorder,
   },
-  wrapperAndroid: { backgroundColor: BG },
+  wrapperAndroid: { backgroundColor: dark.bgBase },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: `${BG}B8`, // BG at ~72% opacity
+    backgroundColor: 'rgba(0,0,0,0.72)',
   },
   bar: {
-    flexDirection: 'row', height: TAB_HEIGHT, alignItems: 'stretch',
+    flexDirection: 'row', height: TAB_BAR_HEIGHT, alignItems: 'stretch',
+    backgroundColor: dark.bgBase,
   },
   tab: {
-    flex: 1, alignItems: 'center', justifyContent: 'flex-start',
-  },
-  indicator: {
-    height: 3, borderRadius: 2,
-    backgroundColor: TAB_ACTIVE,
-    marginBottom: 6,
+    flex: 1, alignItems: 'center', justifyContent: 'center',
   },
   tabInner: {
-    alignItems: 'center', justifyContent: 'center', gap: 5,
-  },
-  label: {
-    fontSize: 10.5, color: TAB_INACTIVE, textAlign: 'center', fontWeight: '500',
+    alignItems: 'center', justifyContent: 'center', gap: 4,
   },
   labelActive: {
-    color: TAB_ACTIVE, fontWeight: '600',
+    fontSize: 10,
+    color: dark.glowGreen,
+    fontFamily: Fonts.semibold,
+    textAlign: 'center',
   },
 })

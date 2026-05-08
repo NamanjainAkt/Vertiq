@@ -1,50 +1,103 @@
 /**
- * 🎨 BRAND — central theme constants.
+ * TallUp Design System — Color Tokens
  *
- * Change ACCENT (and the matching tailwind.config.js color) to rebrand the
- * entire app in one edit. All components import from here instead of
- * hardcoding color strings.
- *
- * Steps to rebrand:
- *   1. Change ACCENT below to your hex color
- *   2. Change the `accent` key in tailwind.config.js to the same hex
- *   3. Optionally change BG for a different dark shade
+ * Dark-first biometric dashboard. See design.md for full spec.
  */
 
-// ── Primary brand color ───────────────────────────────────────────────────────
-// 🎨 Change this one value to rebrand the whole app
-export const ACCENT = '#0ea5a4'           // teal — swap to your primary brand color
+// ── Dark Mode ───────────────────────────────────────────────────────────────
 
-// Derived from ACCENT — adjust opacity as needed
-export const ACCENT_DIM = 'rgba(14,165,164,0.12)'
-export const ACCENT_BORDER = 'rgba(14,165,164,0.30)'
-export const ACCENT_GLOW = 'rgba(14,165,164,0.20)'
-// Text color on dark background using accent tone
-export const ACCENT_LIGHT = '#5eead4'
+export const dark = {
+  // Backgrounds
+  bgBase:      '#000000',
+  bgSurface:   '#0A0A0A',
+  bgElevated:  '#111111',
+  bgBorder:    '#1A1A1A',
+  bgMuted:     '#222222',
 
-// ── Backgrounds ───────────────────────────────────────────────────────────────
-export const BG = '#0d0d0d'        // main app background
-export const SURFACE = '#1a1a1a'        // cards, inputs
-export const SURFACE2 = '#242424'        // elevated surface (sheet panels, etc.)
-export const SURFACE3 = '#2e2e2e'        // even more elevated
+  // Glowing Accents
+  glowGreen:   '#00FF87',
+  glowGreenDim:'#00C96A',
+  glowBlue:    '#00BFFF',
+  glowBlueDim: '#0091CC',
+  glowPurple:  '#B44FFF',
+  glowPurpleDim:'#8A35D4',
+  glowRed:     '#FF3D5A',
+  glowRedDim:  '#CC2844',
 
-// ── Text ──────────────────────────────────────────────────────────────────────
-export const TEXT_PRIMARY = '#ffffff'
-export const TEXT_SECONDARY = 'rgba(255,255,255,0.55)'
-export const TEXT_TERTIARY = 'rgba(255,255,255,0.28)'
-export const TEXT_DISABLED = 'rgba(255,255,255,0.18)'
+  // Text
+  textPrimary: '#FFFFFF',
+  textSecond:  '#A0A0A0',
+  textMuted:   '#555555',
+}
 
-// ── Borders ───────────────────────────────────────────────────────────────────
-export const BORDER = 'rgba(255,255,255,0.09)'
-export const BORDER_ACTIVE = 'rgba(255,255,255,0.18)'
+// ── Light Mode ──────────────────────────────────────────────────────────────
 
-// ── Semantic ──────────────────────────────────────────────────────────────────
-export const ERROR = '#f87171'
-export const ERROR_DIM = 'rgba(248,113,113,0.10)'
-export const WARNING = '#fbbf24'
-export const SUCCESS = '#4ade80'
+export const light = {
+  bgBase:      '#F4F6F9',
+  bgSurface:   '#FFFFFF',
+  bgElevated:  '#FFFFFF',
+  bgBorder:    '#E2E6EC',
+  bgMuted:     '#EDF0F4',
 
-// ── Tab bar ───────────────────────────────────────────────────────────────────
-export const TAB_ACTIVE = ACCENT
-export const TAB_INACTIVE = 'rgba(255,255,255,0.40)'
-export const TAB_HEIGHT = 68
+  accentGreen:  '#00A35C',
+  accentBlue:   '#006FD6',
+  accentPurple: '#7B2FBE',
+  accentRed:    '#D92D47',
+  accentAmber:  '#E07B00',
+
+  textPrimary: '#0D1117',
+  textSecond:  '#4B5563',
+  textMuted:   '#9CA3AF',
+}
+
+// ── Current theme (dark-first) — swap these when adding light mode ──────────
+
+/** Main app background */
+export const BG = dark.bgBase
+/** Card / sheet surfaces */
+export const SURFACE = dark.bgSurface
+/** Modals, bottom sheets */
+export const SURFACE2 = dark.bgElevated
+/** Dividers, input borders */
+export const BORDER = dark.bgBorder
+/** Disabled / subtle fills */
+export const SURFACE3 = dark.bgMuted
+
+// Accents
+export const ACCENT = dark.glowGreen
+export const ACCENT_DIM = dark.glowGreenDim
+export const ACCENT_BLUE = dark.glowBlue
+export const ACCENT_PURPLE = dark.glowPurple
+export const ACCENT_RED = dark.glowRed
+
+// Derived
+export const ACCENT_DIM_BG = 'rgba(0,255,135,0.10)' as string
+export const ACCENT_BORDER = 'rgba(0,255,135,0.25)' as string
+export const ACCENT_GLOW = 'rgba(0,255,135,0.20)' as string
+
+// Text
+export const TEXT_PRIMARY = dark.textPrimary
+export const TEXT_SECONDARY = dark.textSecond
+export const TEXT_TERTIARY = dark.textMuted
+export const TEXT_DISABLED = '#333333'
+
+// Semantic
+export const ERROR = dark.glowRed
+export const ERROR_DIM = 'rgba(255,61,90,0.12)' as string
+export const WARNING = '#E07B00'
+export const SUCCESS = dark.glowGreen
+
+// Tab bar
+export const TAB_ACTIVE = dark.glowGreen
+export const TAB_INACTIVE = dark.textMuted
+export const TAB_HEIGHT = 80
+
+// ── Glow shadow helper (dark mode only) ────────────────────────────────────
+
+export const glowShadow = (color: string, intensity = 0.35) => ({
+  shadowColor: color,
+  shadowOffset: { width: 0, height: 0 },
+  shadowOpacity: intensity,
+  shadowRadius: 20,
+  elevation: 10,
+})

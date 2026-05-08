@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "MyApp",
-    "slug": "my-app",
+    "name": "TallUp",
+    "slug": "tallup",
     "version": "1.0.0",
     "orientation": "portrait",
-    "scheme": "myapp",
+    "scheme": "tallup",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
     "splash": {

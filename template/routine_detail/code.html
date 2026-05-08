@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Bebas+Neue&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "text-primary-light": "#0D1117",
+                    "on-primary-fixed-variant": "#005227",
+                    "glow-red": "#FF3D5A",
+                    "error-container": "#93000a",
+                    "inverse-primary": "#006d36",
+                    "secondary": "#8bd5ff",
+                    "inverse-surface": "#e5e2e1",
+                    "text-primary-dark": "#FFFFFF",
+                    "surface-container-high": "#2a2a2a",
+                    "on-secondary": "#003549",
+                    "surface-container-lowest": "#0e0e0e",
+                    "primary-fixed-dim": "#00e478",
+                    "bg-base-dark": "#000000",
+                    "outline": "#849585",
+                    "tertiary-fixed-dim": "#e1b6ff",
+                    "primary": "#f1ffef",
+                    "secondary-fixed": "#c3e8ff",
+                    "bg-base-light": "#F4F6F9",
+                    "on-tertiary-container": "#9021db",
+                    "on-error-container": "#ffdad6",
+                    "on-background": "#e5e2e1",
+                    "outline-variant": "#3b4b3d",
+                    "tertiary-container": "#f0d5ff",
+                    "on-primary-container": "#007138",
+                    "on-error": "#690005",
+                    "secondary-fixed-dim": "#7ad0ff",
+                    "surface-container-low": "#1c1b1b",
+                    "error": "#ffb4ab",
+                    "primary-container": "#00ff87",
+                    "secondary-container": "#00bdfd",
+                    "on-tertiary-fixed": "#2e004d",
+                    "on-secondary-container": "#004964",
+                    "on-secondary-fixed": "#001e2c",
+                    "surface-tint": "#00e478",
+                    "surface-container-highest": "#353535",
+                    "text-secondary-dark": "#A0A0A0",
+                    "tertiary-fixed": "#f2daff",
+                    "on-surface-variant": "#b9cbb9",
+                    "on-primary-fixed": "#00210c",
+                    "surface": "#131313",
+                    "primary-fixed": "#60ff98",
+                    "inverse-on-surface": "#313030",
+                    "surface-dim": "#131313",
+                    "on-tertiary-fixed-variant": "#6d00ac",
+                    "surface-variant": "#353535",
+                    "bg-surface-dark": "#0A0A0A",
+                    "bg-elevated-dark": "#111111",
+                    "background": "#131313",
+                    "accent-amber": "#E07B00",
+                    "on-secondary-fixed-variant": "#004c69",
+                    "tertiary": "#fffafb",
+                    "on-primary": "#003919",
+                    "on-tertiary": "#4c007b",
+                    "surface-bright": "#393939",
+                    "surface-container": "#20201f",
+                    "on-surface": "#e5e2e1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "md": "16px",
+                    "xl": "32px",
+                    "section-gap": "24px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "base": "4px",
+                    "screen-edge": "20px"
+            },
+            "fontFamily": {
+                    "data-mono": ["JetBrains Mono"],
+                    "heading-2": ["Plus Jakarta Sans"],
+                    "display-xl": ["Bebas Neue"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "label-caps": ["Plus Jakarta Sans"],
+                    "heading-1": ["Plus Jakarta Sans"],
+                    "display-lg": ["Bebas Neue"]
+            },
+            "fontSize": {
+                    "data-mono": ["13px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "heading-2": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "display-xl": ["56px", {"lineHeight": "1.1", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"letterSpacing": "0.08em", "fontWeight": "500"}],
+                    "heading-1": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "display-lg": ["40px", {"lineHeight": "1.1", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glow-border-primary {
+            box-shadow: 0 0 20px -5px rgba(0, 228, 120, 0.3);
+            border: 1px solid rgba(0, 228, 120, 0.2);
+        }
+        .scrim-gradient {
+            background: linear-gradient(0deg, rgba(19,19,19,1) 0%, rgba(19,19,19,0.4) 50%, rgba(19,19,19,0) 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen font-body-lg overflow-x-hidden">
+<!-- Top AppBar (from JSON structure) -->
+<header class="w-full top-0 sticky bg-background flex justify-between items-center px-screen-edge py-sm z-50">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95">arrow_back</span>
+<h1 class="font-display-lg text-display-lg tracking-wider text-primary-fixed">TallUp</h1>
+</div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95" data-icon="settings">settings</span>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden border border-outline-variant">
+<img alt="User" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIvDZFrMto2LE8O8r63kdiBEAi9S3cmlEzd-naUHHg9uRcwWv9SsB4punp8cM2_KO3K3z7rExYZ9769zNEoMTT77rbmLUP1ZUsyZYJfoxQZrrojIfIbDNdaduWyb62NdN5hwblX5rrCTHlmU1QnAN2e1ngJC7pBb_XmfE5i4psrMfKcQz7pvfYIrOR5sl8ebEAd7yoX9vzlsOGT9Y5Qemxeto9k8cO3EEJHHm2b4xO8PloW9pIn7aD3KYBede9Ur5UWr7l5pgaSKs"/>
+</div>
+</div>
+</header>
+<main class="pb-32">
+<!-- Hero Banner -->
+<section class="relative h-[353px] w-full overflow-hidden">
+<img class="w-full h-full object-cover grayscale opacity-60" data-alt="A professional athlete performing a deep overhead stretch in a high-contrast dark studio. Sharp neon green lighting outlines their muscles, creating a powerful biometric glow effect. The atmosphere is intense and focused, with deep black shadows and vibrant medical-grade light accents typical of a high-performance fitness application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMQI4WEgZv1xOZsIXR5pvmIffzKE-NngZXITSAAvR37eYYM4Fvc9_hMaCKp_XqJDXBSXjALbICZ-nvVWkl72IzXN2BocLwzkVC9Yqx_Un34snsITsbXs3H_MlF4uAlQQwTHy_OU3PQeLBF-Gno-kBIB6624tUZEvDWvO_FqbHgRw--ZDrNyVmOj7cptfwmu0Rku7LsaA8RMaJvzRrOEGxwaJX1qJ1zpsmB6cHNuGLpoGQ6KIesI2ZGSgADA6usZ2kF1WDuikrx4BE"/>
+<div class="absolute inset-0 scrim-gradient"></div>
+<div class="absolute bottom-0 left-0 px-screen-edge pb-lg w-full">
+<div class="flex items-center gap-sm mb-sm">
+<span class="bg-primary-container/20 text-primary-fixed-dim px-md py-xs rounded-full font-label-caps text-label-caps border border-primary-container/30 uppercase">Intermediate</span>
+<span class="text-on-surface-variant font-label-caps text-label-caps">15 MIN</span>
+</div>
+<h2 class="font-display-xl text-display-xl text-text-primary-dark uppercase">Upper Body Stretch</h2>
+</div>
+</section>
+<!-- Stats Bento Row -->
+<section class="px-screen-edge mt-section-gap grid grid-cols-2 gap-md">
+<div class="bg-surface-container-low p-md rounded-xl glow-border-primary">
+<div class="flex items-center gap-sm text-primary-fixed-dim mb-xs">
+<span class="material-symbols-outlined text-[18px]">local_fire_department</span>
+<span class="font-label-caps text-label-caps">Est. Burn</span>
+</div>
+<div class="font-data-mono text-heading-1 text-text-primary-dark">85 <span class="text-body-lg opacity-50">kcal</span></div>
+</div>
+<div class="bg-surface-container-low p-md rounded-xl border border-outline-variant">
+<div class="flex items-center gap-sm text-secondary mb-xs">
+<span class="material-symbols-outlined text-[18px]">ecg</span>
+<span class="font-label-caps text-label-caps">Target HR</span>
+</div>
+<div class="font-data-mono text-heading-1 text-text-primary-dark">110 <span class="text-body-lg opacity-50">bpm</span></div>
+</div>
+</section>
+<!-- Exercise List -->
+<section class="px-screen-edge mt-section-gap">
+<div class="flex justify-between items-end mb-md">
+<h3 class="font-heading-1 text-heading-1 text-text-primary-dark">Exercises</h3>
+<span class="font-label-caps text-label-caps text-on-surface-variant">6 Movements</span>
+</div>
+<div class="space-y-sm">
+<!-- Exercise Item 1 -->
+<div class="bg-surface-container p-md rounded-xl flex items-center justify-between border border-outline-variant hover:border-primary-fixed-dim/30 transition-colors">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed-dim">fitbit_check_small</span>
+</div>
+<div>
+<h4 class="font-heading-2 text-body-lg text-text-primary-dark">Cross-Body Shoulder Stretch</h4>
+<p class="font-data-mono text-data-mono text-on-surface-variant">2 SETS × 30 SEC</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+</div>
+<!-- Exercise Item 2 -->
+<div class="bg-surface-container p-md rounded-xl flex items-center justify-between border border-outline-variant">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed-dim">fitbit_check_small</span>
+</div>
+<div>
+<h4 class="font-heading-2 text-body-lg text-text-primary-dark">Overhead Tricep Extension</h4>
+<p class="font-data-mono text-data-mono text-on-surface-variant">2 SETS × 45 SEC</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+</div>
+<!-- Exercise Item 3 -->
+<div class="bg-surface-container p-md rounded-xl flex items-center justify-between border border-outline-variant">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed-dim">fitbit_check_small</span>
+</div>
+<div>
+<h4 class="font-heading-2 text-body-lg text-text-primary-dark">Chest Opener Dynamic</h4>
+<p class="font-data-mono text-data-mono text-on-surface-variant">3 SETS × 12 REPS</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+</div>
+<!-- Exercise Item 4 -->
+<div class="bg-surface-container p-md rounded-xl flex items-center justify-between border border-outline-variant">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed-dim">fitbit_check_small</span>
+</div>
+<div>
+<h4 class="font-heading-2 text-body-lg text-text-primary-dark">Cat-Cow Flow</h4>
+<p class="font-data-mono text-data-mono text-on-surface-variant">1 SETS × 60 SEC</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">expand_more</span>
+</div>
+</div>
+</section>
+<!-- Insights Layer -->
+<section class="px-screen-edge mt-section-gap">
+<div class="bg-primary-container/5 border border-primary-container/20 rounded-2xl p-lg flex gap-md items-start">
+<span class="material-symbols-outlined text-primary-fixed-dim bg-primary-container/10 p-sm rounded-lg">lightbulb</span>
+<div>
+<h5 class="text-primary-fixed-dim font-heading-2 text-body-lg mb-xs">Trainer Insight</h5>
+<p class="text-on-surface-variant text-sm leading-relaxed">Keep your core engaged during the Overhead Tricep extensions to protect your lower back and maximize thoracic mobility.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Fixed Action Footer -->
+<div class="fixed bottom-0 left-0 w-full bg-background/80 backdrop-blur-xl border-t border-outline-variant/30 p-screen-edge z-50">
+<button class="w-full h-14 bg-primary-container text-on-primary-container font-heading-1 text-heading-2 rounded-full flex items-center justify-center gap-sm active:scale-95 transition-transform shadow-[0_0_30px_-5px_rgba(0,255,135,0.4)]">
+<span class="material-symbols-outlined font-variation-settings: 'FILL' 1;">play_arrow</span>
+            Start Routine
+        </button>
+</div>
+<!-- Hidden Bottom Nav for top-level context reference -->
+<nav class="hidden md:flex fixed bottom-0 left-0 w-full justify-around items-center px-xs pb-safe bg-surface-container-lowest h-[80px] z-50 border-t border-outline-variant shadow-xl">
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-caps text-label-caps">Growth</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary-fixed-dim font-bold bg-primary-container/10 rounded-xl px-2 active:scale-90 transition-transform duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">event_repeat</span>
+<span class="font-label-caps text-label-caps">Routine</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined">bedtime</span>
+<span class="font-label-caps text-label-caps">Sleep</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined">restaurant</span>
+<span class="font-label-caps text-label-caps">Nutrition</span>
+</div>
+</nav>
+</body></html>

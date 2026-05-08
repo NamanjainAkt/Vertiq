@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TallUp - Calcium Deep Dive</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Bebas+Neue&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "text-primary-light": "#0D1117",
+                        "on-primary-fixed-variant": "#005227",
+                        "glow-red": "#FF3D5A",
+                        "error-container": "#93000a",
+                        "inverse-primary": "#006d36",
+                        "secondary": "#8bd5ff",
+                        "inverse-surface": "#e5e2e1",
+                        "text-primary-dark": "#FFFFFF",
+                        "surface-container-high": "#2a2a2a",
+                        "on-secondary": "#003549",
+                        "surface-container-lowest": "#0e0e0e",
+                        "primary-fixed-dim": "#00e478",
+                        "bg-base-dark": "#000000",
+                        "outline": "#849585",
+                        "tertiary-fixed-dim": "#e1b6ff",
+                        "primary": "#f1ffef",
+                        "secondary-fixed": "#c3e8ff",
+                        "bg-base-light": "#F4F6F9",
+                        "on-tertiary-container": "#9021db",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#e5e2e1",
+                        "outline-variant": "#3b4b3d",
+                        "tertiary-container": "#f0d5ff",
+                        "on-primary-container": "#007138",
+                        "on-error": "#690005",
+                        "secondary-fixed-dim": "#7ad0ff",
+                        "surface-container-low": "#1c1b1b",
+                        "error": "#ffb4ab",
+                        "primary-container": "#00ff87",
+                        "secondary-container": "#00bdfd",
+                        "on-tertiary-fixed": "#2e004d",
+                        "on-secondary-container": "#004964",
+                        "on-secondary-fixed": "#001e2c",
+                        "surface-tint": "#00e478",
+                        "surface-container-highest": "#353535",
+                        "text-secondary-dark": "#A0A0A0",
+                        "tertiary-fixed": "#f2daff",
+                        "on-surface-variant": "#b9cbb9",
+                        "on-primary-fixed": "#00210c",
+                        "surface": "#131313",
+                        "primary-fixed": "#60ff98",
+                        "inverse-on-surface": "#313030",
+                        "surface-dim": "#131313",
+                        "on-tertiary-fixed-variant": "#6d00ac",
+                        "surface-variant": "#353535",
+                        "bg-surface-dark": "#0A0A0A",
+                        "bg-elevated-dark": "#111111",
+                        "background": "#131313",
+                        "accent-amber": "#E07B00",
+                        "on-secondary-fixed-variant": "#004c69",
+                        "tertiary": "#fffafb",
+                        "on-primary": "#003919",
+                        "on-tertiary": "#4c007b",
+                        "surface-bright": "#393939",
+                        "surface-container": "#20201f",
+                        "on-surface": "#e5e2e1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "section-gap": "24px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "base": "4px",
+                        "screen-edge": "20px"
+                    },
+                    "fontFamily": {
+                        "data-mono": ["JetBrains Mono"],
+                        "heading-2": ["Plus Jakarta Sans"],
+                        "display-xl": ["Bebas Neue"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "heading-1": ["Plus Jakarta Sans"],
+                        "display-lg": ["Bebas Neue"]
+                    },
+                    "fontSize": {
+                        "data-mono": ["13px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "heading-2": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display-xl": ["56px", {"lineHeight": "1.1", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"letterSpacing": "0.08em", "fontWeight": "500"}],
+                        "heading-1": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "display-lg": ["40px", {"lineHeight": "1.1", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glow-amber {
+            box-shadow: 0 0 20px rgba(224, 123, 0, 0.3);
+        }
+        .glow-subtle {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface selection:bg-accent-amber/30 selection:text-accent-amber">
+<!-- Top App Bar -->
+<header class="w-full top-0 sticky bg-background flex justify-between items-center px-screen-edge py-sm z-50">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 cursor-pointer">arrow_back</span>
+<span class="font-display-lg text-display-lg tracking-wider text-primary-fixed">TallUp</span>
+</div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 cursor-pointer" data-icon="settings">settings</span>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDribZkLxFw2BMfxiU4zGeLo0KOuU4TDEhHFKszan_bOoG-H2mkEtkBok0Xgwk_MJW71yCXA96opkm09byeDn0gHI1w4OsEfZYaHhciH7QuVqSFAuagZ_vUK_U_guN4dvVD6xkChu2LdMirKq9NC4eoLezQ-CuFKlFjd01RJPdRBa4AIGc92bJRgEqzSi1OF_J_JI1WycaWehbxEnzs4dR5409FMxcrFogeJNALAg3XH4Wi9OpTRcULmAr7UMQNPuxTcRn2HDb2tO0"/>
+</div>
+</div>
+</header>
+<main class="pb-[100px] px-screen-edge space-y-section-gap">
+<!-- Hero Section: Calcium Glow Card -->
+<section class="mt-md">
+<div class="relative overflow-hidden rounded-xl bg-bg-surface-dark border border-accent-amber/20 glow-amber p-lg min-h-[220px] flex flex-col justify-end">
+<div class="absolute top-0 right-0 p-lg opacity-20 pointer-events-none">
+<span class="material-symbols-outlined text-[120px] text-accent-amber" style="font-variation-settings: 'FILL' 1;">skeleton</span>
+</div>
+<div class="relative z-10">
+<div class="inline-flex items-center gap-xs px-sm py-xs bg-accent-amber/10 rounded-full border border-accent-amber/30 mb-sm">
+<span class="material-symbols-outlined text-accent-amber text-[14px]">bolt</span>
+<span class="font-label-caps text-label-caps text-accent-amber">ESSENTIAL MINERAL</span>
+</div>
+<h1 class="font-display-xl text-display-xl text-text-primary-dark">CALCIUM</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-xs max-w-[80%]">The structural foundation of your skeletal growth and peak metabolic performance.</p>
+</div>
+</div>
+</section>
+<!-- RDA Status Bento -->
+<section class="grid grid-cols-2 gap-md">
+<div class="bg-surface-container rounded-xl p-md flex flex-col justify-between border border-outline-variant/30">
+<span class="font-label-caps text-label-caps text-on-surface-variant">DAILY RDA</span>
+<div class="mt-sm">
+<span class="font-display-lg text-display-lg text-accent-amber">1,300</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant ml-xs">mg</span>
+</div>
+<p class="font-data-mono text-[11px] text-on-surface-variant mt-xs">Ages 13-18 Target</p>
+</div>
+<div class="bg-surface-container rounded-xl p-md flex flex-col justify-between border border-outline-variant/30">
+<span class="font-label-caps text-label-caps text-on-surface-variant">CURRENT INTAKE</span>
+<div class="mt-sm">
+<span class="font-display-lg text-display-lg text-primary-fixed-dim">840</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant ml-xs">mg</span>
+</div>
+<div class="w-full bg-outline-variant h-1 rounded-full mt-sm overflow-hidden">
+<div class="bg-primary-fixed-dim h-full w-[65%]"></div>
+</div>
+</div>
+</section>
+<!-- Bio-Benefits Grid -->
+<section class="space-y-md">
+<h2 class="font-heading-2 text-heading-2 text-text-primary-dark flex items-center gap-sm">
+<span class="material-symbols-outlined text-accent-amber">verified</span>
+                Clinical Benefits
+            </h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+<!-- Benefit 1 -->
+<div class="p-md bg-surface-container-low border border-outline-variant/20 rounded-xl flex gap-md items-start">
+<div class="w-10 h-10 rounded-lg bg-accent-amber/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-accent-amber">height</span>
+</div>
+<div>
+<h3 class="font-heading-2 text-[18px] text-text-primary-dark">Bone Density</h3>
+<p class="font-body-lg text-[14px] text-on-surface-variant leading-relaxed">Directly increases mineral matrix density for long-term skeletal health.</p>
+</div>
+</div>
+<!-- Benefit 2 -->
+<div class="p-md bg-surface-container-low border border-outline-variant/20 rounded-xl flex gap-md items-start">
+<div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary">fitness_center</span>
+</div>
+<div>
+<h3 class="font-heading-2 text-[18px] text-text-primary-dark">Muscle Function</h3>
+<p class="font-body-lg text-[14px] text-on-surface-variant leading-relaxed">Essential for synaptic signaling during intense muscle contractions.</p>
+</div>
+</div>
+<!-- Benefit 3 -->
+<div class="p-md bg-surface-container-low border border-outline-variant/20 rounded-xl flex gap-md items-start">
+<div class="w-10 h-10 rounded-lg bg-glow-red/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-glow-red">favorite</span>
+</div>
+<div>
+<h3 class="font-heading-2 text-[18px] text-text-primary-dark">Nerve Signaling</h3>
+<p class="font-body-lg text-[14px] text-on-surface-variant leading-relaxed">Regulates blood pressure and healthy cardiovascular rhythms.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Top Food Sources: Ranked List -->
+<section class="space-y-md">
+<div class="flex justify-between items-end">
+<h2 class="font-heading-2 text-heading-2 text-text-primary-dark">Bio-Available Sources</h2>
+<span class="font-label-caps text-label-caps text-accent-amber uppercase">Ranked by mg/serving</span>
+</div>
+<div class="space-y-sm">
+<!-- Source 1 -->
+<div class="group bg-surface-container-lowest border border-outline-variant/10 rounded-xl overflow-hidden hover:border-accent-amber/40 transition-colors">
+<div class="flex items-center p-md gap-md">
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A macro shot of aged Parmigiano Reggiano cheese block on a dark slate surface. The lighting is cinematic with deep shadows and warm highlights, emphasizing the grainy, crystalline texture of the cheese. The overall aesthetic is gourmet and high-contrast, fitting a premium biometric nutrition dashboard with dark mode accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZ0lKRfZS1EgpYN4YQmJtKnb1uYWmQNTL6Di7ilnld--qLYtximYUt2l_riSNdH6lDvWRwnlxVOkRxPWaTRgXeNXDPIYmMQWI7P50__7oHRO8hne7f2hxWDfTStPpSEDT-Agp7G8YlTlEFt2MuweRd4CmdiEm0EK9Cf-7aQ9eb0Yn65qNG-nNE_FP81wZd-S0uEiF7iV6MCgnoQxQU7NpL7-SnJOGSP_1iuQy1frlPy_j7IFs7dS_rY3hEVp3P1EONbM9WXkCQVS4"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-heading-2 text-[16px] text-text-primary-dark">Parmesan Cheese</h4>
+<span class="font-data-mono text-accent-amber">1109 mg</span>
+</div>
+<p class="font-body-lg text-[13px] text-on-surface-variant">Per 100g serving</p>
+</div>
+<div class="text-right">
+<div class="px-2 py-1 bg-accent-amber/10 border border-accent-amber/20 rounded text-[10px] text-accent-amber font-data-mono">TOP TIER</div>
+</div>
+</div>
+</div>
+<!-- Source 2 -->
+<div class="group bg-surface-container-lowest border border-outline-variant/10 rounded-xl overflow-hidden hover:border-accent-amber/40 transition-colors">
+<div class="flex items-center p-md gap-md">
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="High-resolution close-up of sardines in olive oil, arranged artfully in a dark ceramic bowl. The silver scales of the fish catch the cool studio lighting, creating a clinical yet appetizing visual. The scene uses a deep black background to make the textures pop, aligned with a high-performance athletic nutrition guide." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZhu3EiVHH90RtgZca2EM0oeHnxj9msE7fhkPfmaY1FgreAVAHtpZSg8aYk-BktJumo6ZQQWUYwMT5d498h0KT_82lD5Gc4-z4iMGrGEOzYPnewc04U5jwemI5MoJq4mS_vbtDlX4A_XOkgjzqcVA16UfM1q7MB7iUYiqWUD64Oo_4RSsr0W8oBblDmbQWdzuQrxFMNHFBESUsoNR3jV5r1iyd6PpufOgmiB82rajApl-0QFe61MVQ2CxxTLIrLtnVUceX2Niqr-Y"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-heading-2 text-[16px] text-text-primary-dark">Sardines (with bones)</h4>
+<span class="font-data-mono text-accent-amber">382 mg</span>
+</div>
+<p class="font-body-lg text-[13px] text-on-surface-variant">Per 1 cup (canned)</p>
+</div>
+</div>
+</div>
+<!-- Source 3 -->
+<div class="group bg-surface-container-lowest border border-outline-variant/10 rounded-xl overflow-hidden hover:border-accent-amber/40 transition-colors">
+<div class="flex items-center p-md gap-md">
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="Minimalist top-down view of thick, creamy Greek yogurt in a matte black bowl. A single swirl of honey creates a golden amber highlight. The lighting is soft and medical-grade clean, contrasting the pristine white yogurt against the dark vessel. Perfect for a scientific bio-hacking interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuChOcmdu49Pz7MypGOsgp-iPg4sBfS-fwWJE8-eaBchlLi9h_kx27dzhJVV1AjEVD0zBpVfC1hgrKJamBlztMLapsZMjJNkP-HtuI4UJPY8n59SJp60SB_b5MaCrMqbMHkPkgcnWSrV3GKN9OCK_lRC5_-P1mQROdxmcs9fr7nhq5b5Egj_SLniyFNtqFAVjvh-uJwNEMSBeOrX4-oPYsCiEhnfhrw5hffQTZDdEoKEkJ7cey94-Az2R8wCcgnrKQuaKDs70XsMC08"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-heading-2 text-[16px] text-text-primary-dark">Greek Yogurt</h4>
+<span class="font-data-mono text-accent-amber">230 mg</span>
+</div>
+<p class="font-body-lg text-[13px] text-on-surface-variant">Per 1 container (170g)</p>
+</div>
+</div>
+</div>
+<!-- Source 4 -->
+<div class="group bg-surface-container-lowest border border-outline-variant/10 rounded-xl overflow-hidden hover:border-accent-amber/40 transition-colors">
+<div class="flex items-center p-md gap-md">
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A hyper-detailed close-up of a curly kale leaf, showing every intricate vein and vibrant green texture. The leaf is backlit, making it glow against a dark, moody background. Droplets of water sit on the surface, emphasizing freshness and biological vitality in a high-contrast athletic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGpHKF_29Kwa1rXn7QA5teXkhqZZ3EOT-QPtVKjDRBpgr0LAsXzFqniRpbVzfy9omp9Wku0GDUnpNBudAfANdfbEvRKo2uf_LEYHos1gZgmzfMZnljVcX7gQIpNVJaQRuBjLb5aXon29mmG94zTpiAWpQIaotuLwJRz0qf5XozMbydU7RxZQcsVf8Fqper6-2soxLcNFJEwhBxFcAllTno01nPl-jwREhV8G-YsohacKzEYbBn7zL7vOsciqdrXxHJqecxLpbRivc"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-heading-2 text-[16px] text-text-primary-dark">Cooked Kale</h4>
+<span class="font-data-mono text-accent-amber">177 mg</span>
+</div>
+<p class="font-body-lg text-[13px] text-on-surface-variant">Per 1 cup chopped</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Dynamic Tip Card -->
+<section>
+<div class="bg-primary-container/10 border border-primary-container/20 rounded-xl p-md flex items-center gap-md">
+<span class="material-symbols-outlined text-primary-fixed-dim" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+<div>
+<h4 class="font-heading-2 text-[14px] text-primary-fixed-dim uppercase tracking-wider">Bio-Hack Tip</h4>
+<p class="font-body-lg text-[14px] text-on-surface-variant">Vitamin D is required for calcium absorption. Consider taking your sources with 15 mins of sunlight exposure.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Nav Bar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-xs pb-safe bg-surface-container-lowest shadow-xl h-[80px] z-50 border-t border-outline-variant">
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 transition-transform duration-200 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 transition-transform duration-200 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span class="font-label-caps text-label-caps">Growth</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 transition-transform duration-200 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="event_repeat">event_repeat</span>
+<span class="font-label-caps text-label-caps">Routine</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 transition-transform duration-200 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="bedtime">bedtime</span>
+<span class="font-label-caps text-label-caps">Sleep</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary-fixed-dim font-bold bg-primary-container/10 rounded-xl px-2 active:scale-90 transition-transform duration-200 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="restaurant" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+<span class="font-label-caps text-label-caps">Nutrition</span>
+</div>
+</nav>
+</body></html>

@@ -1,172 +1,443 @@
 /**
- * Onboarding screen — runs once after first login.
+ * Profile Setup — Screen 3 (TallUp)
  *
- * This template has a single onboarding step: collect the user's display name.
- * The step is optional (users can skip).
+ * Multi-step wizard:
+ *   Step 1: Basic Info (Age, Sex, Ethnicity)
+ *   Step 2: Measurements (Height, Weight)
+ *   Step 3: Goals (Goal height, Commitment)
  *
- * To add more onboarding steps:
- *   1. Create app/(onboarding)/step2.tsx, step3.tsx, etc.
- *   2. Update this file to navigate to the next step instead of completing onboarding.
- *   3. Complete onboarding only in the last step.
+ * 3-step progress bar at top. Bottom-fixed CTA.
  */
 import { useState } from 'react'
 import {
-  View, Pressable, TextInput, StyleSheet,
-  KeyboardAvoidingView, Platform, ActivityIndicator,
+  View, Pressable, StyleSheet, ScrollView, Platform,
 } from 'react-native'
 import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated'
+import { router } from 'expo-router'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Text } from '@/components/ui/Text'
+import { dark, glowShadow } from '@/lib/theme'
+import { Fonts } from '@/lib/typography'
 import { supabase } from '@/lib/supabase'
 import { track } from '@/lib/analytics'
-import { ACCENT, ACCENT_DIM, ACCENT_BORDER, BG, SURFACE, BORDER } from '@/lib/theme'
-import { LinearGradient } from 'expo-linear-gradient'
-import { adjustBrightness } from '@/lib/utils'
-import { Fonts } from '@/lib/typography'
+import { Ionicons } from '@expo/vector-icons'
 
-export default function OnboardingScreen() {
+const STEPS = ['Basic Info', 'Measurements', 'Goals']
+const SEX_OPTIONS = ['Male', 'Female']
+const ETHNICITY_OPTIONS = [
+  'Asian', 'Black / African', 'Hispanic / Latino', 'Middle Eastern',
+  'White / Caucasian', 'Mixed', 'Other', 'Prefer not to say',
+]
+const COMMITMENT_OPTIONS = ['3 days/week', '5 days/week', '7 days/week']
+
+export default function ProfileSetupScreen() {
   const insets = useSafeAreaInsets()
+  const [step, setStep] = useState(0)
 
-  const [displayName, setDisplayName] = useState('')
-  const [loading,     setLoading]     = useState(false)
-  const [error,       setError]       = useState<string | null>(null)
+  // Step 1
+  const [age, setAge] = useState('16')
+  const [sex, setSex] = useState<'Male' | 'Female' | null>(null)
+  const [ethnicity, setEthnicity] = useState('')
 
-  track('onboarding_started')
+  // Step 2
+  const [heightCm, setHeightCm] = useState('170')
+  const [weight, setWeight] = useState('')
 
-  async function complete(name?: string) {
-    setLoading(true)
+  // Step 3
+  const [goalHeight, setGoalHeight] = useState('180')
+  const [commitment, setCommitment] = useState<string | null>(null)
+
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const isLast = step === STEPS.length - 1
+
+  const canProceed = (): boolean => {
+    switch (step) {
+      case 0: return age.trim().length > 0 && sex !== null
+      case 1: return heightCm.trim().length > 0
+      case 2: return goalHeight.trim().length > 0 && commitment !== null
+      default: return true
+    }
+  }
+
+  const handleNext = () => {
+    if (!canProceed()) return
+    if (isLast) {
+      handleSave()
+    } else {
+      setStep((s) => s + 1)
+      setError(null)
+    }
+  }
+
+  const handleBack = () => {
+    if (step > 0) setStep((s) => s - 1)
+  }
+
+  const handleSave = async () => {
+    setSaving(true)
     setError(null)
+    track('profile_setup_completed')
 
     const { error: err } = await supabase.auth.updateUser({
       data: {
         onboarding_completed: true,
-        full_name: name?.trim() || undefined,
+        age: parseInt(age, 10),
+        biological_sex: sex,
+        ethnicity: ethnicity || undefined,
+        height_cm: parseFloat(heightCm),
+        weight_kg: weight ? parseFloat(weight) : undefined,
+        goal_height_cm: parseInt(goalHeight, 10),
+        commitment_days: commitment === '3 days/week' ? 3 : commitment === '5 days/week' ? 5 : 7,
       },
     })
 
+    setSaving(false)
     if (err) {
-      setLoading(false)
       setError('Could not save. Please try again.')
       return
     }
-
-    // Also upsert the profiles table (best-effort, non-blocking)
-    if (name?.trim()) {
-      try {
-        const { data: { user } } = await supabase.auth.getUser()
-        if (user) {
-          await supabase
-            .from('profiles')
-            .upsert({ id: user.id, display_name: name.trim() })
-        }
-      } catch { /* profile upsert failure is non-fatal; metadata already saved above */ }
-    }
-
-    track('onboarding_completed', { skipped: !name?.trim() })
-    setLoading(false)
-    // _layout.tsx auth guard detects onboarding_completed = true and routes to (tabs)
+    // _layout.tsx picks up onboarding_completed and routes to (tabs)
   }
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1, backgroundColor: BG }}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <View style={[s.root, { paddingTop: insets.top + 20, paddingBottom: insets.bottom + 32 }]}>
-        <Animated.View entering={FadeInDown.delay(100).duration(400)} style={s.content}>
-          {/* Header */}
-          <View style={s.header}>
-            <View style={[s.iconBadge, { backgroundColor: ACCENT_DIM, borderColor: ACCENT_BORDER }]}>
-              <Text style={{ fontSize: 28 }}>👋</Text>
-            </View>
-            <Text style={s.title}>What should we call you?</Text>
-            <Text style={s.subtitle}>
-              This is optional — you can always change it later in your profile.
-            </Text>
-          </View>
-
-          {/* Name input */}
-          <View style={s.fieldGroup}>
-            <Text style={s.label}>YOUR NAME</Text>
-            <TextInput
-              value={displayName}
-              onChangeText={(v) => { setDisplayName(v); setError(null) }}
-              placeholder="Enter your name"
-              placeholderTextColor="rgba(255,255,255,0.18)"
-              style={s.input}
-              autoCapitalize="words"
-              returnKeyType="done"
-              onSubmitEditing={() => complete(displayName)}
-              autoFocus
+    <View style={s.root}>
+      {/* Progress bar */}
+      <View style={[s.progressWrap, { paddingTop: insets.top + 16 }]}>
+        <View style={s.progressBar}>
+          {STEPS.map((_, idx) => (
+            <View
+              key={idx}
+              style={[
+                s.progressDot,
+                { backgroundColor: idx <= step ? dark.glowGreen : dark.bgBorder },
+              ]}
             />
-          </View>
-
-          {error ? (
-            <Animated.View entering={FadeIn.duration(180)} style={s.errorBox}>
-              <Text style={{ color: '#f87171', fontSize: 13 }}>{error}</Text>
-            </Animated.View>
-          ) : null}
-        </Animated.View>
-
-        {/* Bottom buttons */}
-        <Animated.View entering={FadeInDown.delay(300).duration(400)} style={s.buttons}>
-          <Pressable
-            onPress={() => complete(displayName)}
-            disabled={loading}
-            style={({ pressed }) => ({
-              opacity: loading ? 0.5 : pressed ? 0.85 : 1,
-              borderRadius: 16, overflow: 'hidden',
-            })}
-          >
-            <LinearGradient
-              colors={[ACCENT, adjustBrightness(ACCENT, -25)]}
-              start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}
-              style={s.primaryBtn}
-            >
-              {loading
-                ? <ActivityIndicator size="small" color="#fff" />
-                : <Text style={{ fontSize: 16, fontWeight: '800', color: '#fff' }}>
-                    {displayName.trim() ? 'Continue  →' : 'Get Started  →'}
-                  </Text>
-              }
-            </LinearGradient>
-          </Pressable>
-
-          <Pressable onPress={() => complete()} disabled={loading} style={{ alignItems: 'center', paddingVertical: 6 }}>
-            <Text style={{ fontSize: 14, color: 'rgba(255,255,255,0.3)' }}>Skip for now</Text>
-          </Pressable>
-        </Animated.View>
+          ))}
+        </View>
       </View>
-    </KeyboardAvoidingView>
+
+      <ScrollView
+        style={s.scroll}
+        contentContainerStyle={[s.scrollContent, { paddingBottom: insets.bottom + 120 }]}
+        showsVerticalScrollIndicator={false}
+      >
+        <Animated.View key={`step-${step}`} entering={FadeInDown.duration(300)} style={s.stepContent}>
+          {step === 0 && (
+            <>
+              <Text style={s.stepTitle}>About You</Text>
+              <Text style={s.stepSub}>Help us personalize your growth plan.</Text>
+
+              {/* Age */}
+              <View style={s.fieldGroup}>
+                <Text style={s.label}>AGE</Text>
+                <View style={s.numberRow}>
+                  {['13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25'].map(
+                    (val) => (
+                      <Pressable
+                        key={val}
+                        onPress={() => setAge(val)}
+                        style={[
+                          s.chip,
+                          age === val && { backgroundColor: dark.glowGreen, borderColor: dark.glowGreen },
+                        ]}
+                      >
+                        <Text style={[s.chipText, age === val && { color: '#000' }]}>{val}</Text>
+                      </Pressable>
+                    )
+                  )}
+                </View>
+              </View>
+
+              {/* Sex */}
+              <View style={s.fieldGroup}>
+                <Text style={s.label}>BIOLOGICAL SEX</Text>
+                <View style={s.inlineRow}>
+                  {SEX_OPTIONS.map((opt) => (
+                    <Pressable
+                      key={opt}
+                      onPress={() => setSex(opt as any)}
+                      style={[
+                        s.inlineChip,
+                        sex === opt && { backgroundColor: dark.glowGreen, borderColor: dark.glowGreen },
+                      ]}
+                    >
+                      <Text style={[s.chipText, sex === opt && { color: '#000' }]}>{opt}</Text>
+                    </Pressable>
+                  ))}
+                </View>
+              </View>
+
+              {/* Ethnicity */}
+              <View style={s.fieldGroup}>
+                <Text style={s.label}>ETHNICITY (optional)</Text>
+                <View style={s.chipRow}>
+                  {ETHNICITY_OPTIONS.map((opt) => (
+                    <Pressable
+                      key={opt}
+                      onPress={() => setEthnicity(ethnicity === opt ? '' : opt)}
+                      style={[
+                        s.chip,
+                        ethnicity === opt && { backgroundColor: dark.glowGreen, borderColor: dark.glowGreen },
+                      ]}
+                    >
+                      <Text style={[s.chipText, ethnicity === opt && { color: '#000' }]}>{opt}</Text>
+                    </Pressable>
+                  ))}
+                </View>
+              </View>
+            </>
+          )}
+
+          {step === 1 && (
+            <>
+              <Text style={s.stepTitle}>Your Measurements</Text>
+              <Text style={s.stepSub}>Current height helps us track progress.</Text>
+
+              {/* Height */}
+              <View style={s.fieldGroup}>
+                <Text style={s.label}>CURRENT HEIGHT (cm)</Text>
+                <View style={s.heightInputRow}>
+                  <Text style={s.heightValue}>{heightCm}</Text>
+                  <Text style={s.heightUnit}>cm</Text>
+                </View>
+                <View style={s.sliderRow}>
+                  {Array.from({ length: 121 }, (_, i) => i + 120).map((val) => (
+                    <Pressable
+                      key={val}
+                      onPress={() => setHeightCm(String(val))}
+                      style={[
+                        s.heightTick,
+                        parseInt(heightCm) === val && { backgroundColor: dark.glowGreen },
+                      ]}
+                    />
+                  ))}
+                </View>
+                <View style={s.sliderLabels}>
+                  <Text style={s.sliderLabel}>120</Text>
+                  <Text style={s.sliderLabel}>240</Text>
+                </View>
+              </View>
+
+              {/* Weight */}
+              <View style={s.fieldGroup}>
+                <Text style={s.label}>WEIGHT — kg (optional)</Text>
+                <View style={s.inlineRow}>
+                  {['50', '55', '60', '65', '70', '75', '80', '85', '90', '95+'].map((val) => (
+                    <Pressable
+                      key={val}
+                      onPress={() => setWeight(weight === val ? '' : val)}
+                      style={[
+                        s.inlineChip,
+                        weight === val && { backgroundColor: dark.glowGreen, borderColor: dark.glowGreen },
+                      ]}
+                    >
+                      <Text style={[s.chipText, weight === val && { color: '#000' }]}>{val}</Text>
+                    </Pressable>
+                  ))}
+                </View>
+              </View>
+            </>
+          )}
+
+          {step === 2 && (
+            <>
+              <Text style={s.stepTitle}>Your Goals</Text>
+              <Text style={s.stepSub}>Dream big — we'll help you get there.</Text>
+
+              {/* Goal height */}
+              <View style={s.fieldGroup}>
+                <Text style={s.label}>GOAL HEIGHT (cm)</Text>
+                <View style={s.heightInputRow}>
+                  <Text style={[s.heightValue, { color: dark.glowPurple }]}>{goalHeight}</Text>
+                  <Text style={[s.heightUnit, { color: dark.glowPurple }]}>cm</Text>
+                </View>
+                <View style={s.sliderRow}>
+                  {Array.from({ length: 81 }, (_, i) => i + 150).map((val) => (
+                    <Pressable
+                      key={val}
+                      onPress={() => setGoalHeight(String(val))}
+                      style={[
+                        s.heightTick,
+                        parseInt(goalHeight) === val && { backgroundColor: dark.glowPurple },
+                      ]}
+                    />
+                  ))}
+                </View>
+                <View style={s.sliderLabels}>
+                  <Text style={s.sliderLabel}>150</Text>
+                  <Text style={s.sliderLabel}>230</Text>
+                </View>
+              </View>
+
+              {/* Commitment */}
+              <View style={s.fieldGroup}>
+                <Text style={s.label}>HOW OFTEN CAN YOU COMMIT?</Text>
+                {COMMITMENT_OPTIONS.map((opt) => (
+                  <Pressable
+                    key={opt}
+                    onPress={() => setCommitment(opt)}
+                    style={[
+                      s.commitChip,
+                      commitment === opt && { backgroundColor: 'rgba(0,255,135,0.1)', borderColor: dark.glowGreen },
+                    ]}
+                  >
+                    <Text style={[s.chipText, commitment === opt && { color: dark.glowGreen, fontFamily: Fonts.bold }]}>
+                      {opt}
+                    </Text>
+                    {commitment === opt && (
+                      <Ionicons name="checkmark-circle" size={20} color={dark.glowGreen} />
+                    )}
+                  </Pressable>
+                ))}
+              </View>
+            </>
+          )}
+
+          {error && (
+            <Animated.View entering={FadeIn.duration(180)} style={s.errorBox}>
+              <Text style={s.errorText}>{error}</Text>
+            </Animated.View>
+          )}
+        </Animated.View>
+      </ScrollView>
+
+      {/* Bottom fixed CTA */}
+      <View style={[s.bottomBar, { paddingBottom: insets.bottom + 16 }]}>
+        <View style={s.bottomRow}>
+          {step > 0 && (
+            <Pressable onPress={handleBack} style={s.backBtn} hitSlop={8}>
+              <Ionicons name="chevron-back" size={20} color={dark.textSecond} />
+              <Text style={s.backText}>Back</Text>
+            </Pressable>
+          )}
+          <Pressable
+            onPress={handleNext}
+            disabled={!canProceed() || saving}
+            style={({ pressed }) => [
+              s.nextBtn,
+              { backgroundColor: dark.glowGreen, ...glowShadow(dark.glowGreen, 0.35) },
+              !canProceed() && { opacity: 0.4 },
+              pressed && { opacity: 0.85 },
+            ]}
+          >
+            <Text style={s.nextBtnText}>
+              {saving ? 'Saving...' : isLast ? 'Finish Setup →' : 'Next →'}
+            </Text>
+          </Pressable>
+        </View>
+      </View>
+    </View>
   )
 }
 
-// adjustBrightness imported from @/lib/utils
-
 const s = StyleSheet.create({
-  root: { flex: 1, paddingHorizontal: 24 },
-  content: { flex: 1, gap: 24, justifyContent: 'center' },
-  header: { gap: 12, alignItems: 'center', paddingBottom: 8 },
-  iconBadge: {
-    width: 80, height: 80, borderRadius: 24,
-    borderWidth: 1.5, alignItems: 'center', justifyContent: 'center',
-  },
-  title:    { fontSize: 28, fontWeight: '800', color: '#fff', letterSpacing: -0.5, textAlign: 'center' },
-  subtitle: { fontSize: 14, color: 'rgba(255,255,255,0.38)', textAlign: 'center', lineHeight: 21, maxWidth: 280 },
+  root: { flex: 1, backgroundColor: dark.bgBase },
+  progressWrap: { paddingHorizontal: 24, paddingBottom: 8 },
+  progressBar: { flexDirection: 'row', gap: 8, justifyContent: 'center' },
+  progressDot: { width: 40, height: 4, borderRadius: 2 },
+  scroll: { flex: 1 },
+  scrollContent: { paddingHorizontal: 24, paddingTop: 24 },
+  stepContent: { gap: 28 },
 
-  fieldGroup: { gap: 8 },
-  label: { fontSize: 11, fontWeight: '600', letterSpacing: 0.6, textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)' },
-  input: {
-    height: 52, backgroundColor: 'rgba(255,255,255,0.07)',
-    borderWidth: 1, borderColor: BORDER, borderRadius: 14,
-    paddingHorizontal: 18, color: '#fff', fontSize: 16,
-    fontFamily: Fonts.regular,
+  // Step header
+  stepTitle: { fontSize: 28, fontFamily: Fonts.bold, color: dark.textPrimary },
+  stepSub: { fontSize: 14, color: dark.textSecond, marginTop: -20 },
+
+  // Fields
+  fieldGroup: { gap: 10 },
+  label: {
+    fontSize: 11, fontFamily: Fonts.bold,
+    letterSpacing: 0.8, textTransform: 'uppercase',
+    color: dark.textMuted,
   },
+
+  // Chips
+  chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  chip: {
+    paddingHorizontal: 14, paddingVertical: 8,
+    borderRadius: 999, borderWidth: 1,
+    backgroundColor: dark.bgElevated, borderColor: dark.bgBorder,
+  },
+  chipText: { fontSize: 13, fontFamily: Fonts.medium, color: dark.textPrimary },
+
+  // Inline row (tight chips)
+  inlineRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  inlineChip: {
+    paddingHorizontal: 20, paddingVertical: 10,
+    borderRadius: 999, borderWidth: 1,
+    backgroundColor: dark.bgElevated, borderColor: dark.bgBorder,
+  },
+
+  // Number age row
+  numberRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  numberChip: {
+    width: 44, height: 44, borderRadius: 999,
+    alignItems: 'center', justifyContent: 'center',
+    backgroundColor: dark.bgElevated, borderWidth: 1, borderColor: dark.bgBorder,
+  },
+  numberText: { fontSize: 14, fontFamily: Fonts.medium, color: dark.textPrimary },
+
+  // Height input
+  heightInputRow: {
+    flexDirection: 'row', alignItems: 'baseline', justifyContent: 'center',
+    gap: 4, paddingVertical: 12,
+  },
+  heightValue: {
+    fontFamily: Fonts.display,
+    fontSize: 56,
+    color: dark.glowGreen,
+    lineHeight: 62,
+  },
+  heightUnit: {
+    fontFamily: Fonts.display,
+    fontSize: 24,
+    color: dark.glowGreen,
+    lineHeight: 28,
+  },
+  sliderRow: {
+    flexDirection: 'row', flexWrap: 'wrap', gap: 2,
+    justifyContent: 'center',
+  },
+  heightTick: {
+    width: 4, height: 20, borderRadius: 2,
+    backgroundColor: dark.bgBorder,
+  },
+  sliderLabels: {
+    flexDirection: 'row', justifyContent: 'space-between',
+    paddingHorizontal: 8,
+  },
+  sliderLabel: { fontSize: 10, color: dark.textMuted },
+
+  // Commitment
+  commitChip: {
+    flexDirection: 'row', alignItems: 'center',
+    paddingHorizontal: 16, paddingVertical: 14,
+    borderRadius: 12, borderWidth: 1,
+    backgroundColor: dark.bgElevated, borderColor: dark.bgBorder,
+    justifyContent: 'space-between',
+  },
+
+  // Error
   errorBox: {
-    backgroundColor: 'rgba(248,113,113,0.08)', borderRadius: 8,
-    borderWidth: 1, borderColor: 'rgba(248,113,113,0.2)',
-    paddingHorizontal: 14, paddingVertical: 10,
+    backgroundColor: 'rgba(255,61,90,0.08)', borderRadius: 10,
+    borderWidth: 1, borderColor: 'rgba(255,61,90,0.2)',
+    paddingHorizontal: 12, paddingVertical: 10,
   },
-  buttons:    { gap: 12 },
-  primaryBtn: { height: 56, alignItems: 'center', justifyContent: 'center' },
+  errorText: { color: dark.glowRed, fontSize: 12.5 },
+
+  // Bottom bar
+  bottomBar: {
+    position: 'absolute', bottom: 0, left: 0, right: 0,
+    paddingHorizontal: 24, paddingTop: 12,
+    backgroundColor: dark.bgBase,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: dark.bgBorder,
+  },
+  bottomRow: { flexDirection: 'row', gap: 12, alignItems: 'center' },
+  backBtn: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  backText: { fontSize: 14, color: dark.textSecond, fontFamily: Fonts.medium },
+  nextBtn: { flex: 1, height: 52, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
+  nextBtnText: { color: '#000', fontSize: 15, fontFamily: Fonts.bold },
 })

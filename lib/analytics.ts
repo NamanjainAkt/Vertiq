@@ -24,12 +24,15 @@ type IdentifyProperties = Parameters<PostHog['identify']>[1]
 type EventName =
   // Auth
   | 'login_started'
+  | 'signup_started'
   | 'otp_sent'
   | 'login_success'
+  | 'auth_success'
   | 'logout'
   // Onboarding
   | 'onboarding_started'
   | 'onboarding_completed'
+  | 'profile_setup_completed'
   // Subscription
   | 'upgrade_page_viewed'
   | 'upgrade_cta_tapped'

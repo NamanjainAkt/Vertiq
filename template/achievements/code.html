@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TallUp | Streak &amp; Achievements</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Bebas+Neue&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "text-primary-light": "#0D1117",
+                        "on-primary-fixed-variant": "#005227",
+                        "glow-red": "#FF3D5A",
+                        "error-container": "#93000a",
+                        "inverse-primary": "#006d36",
+                        "secondary": "#8bd5ff",
+                        "inverse-surface": "#e5e2e1",
+                        "text-primary-dark": "#FFFFFF",
+                        "surface-container-high": "#2a2a2a",
+                        "on-secondary": "#003549",
+                        "surface-container-lowest": "#0e0e0e",
+                        "primary-fixed-dim": "#00e478",
+                        "bg-base-dark": "#000000",
+                        "outline": "#849585",
+                        "tertiary-fixed-dim": "#e1b6ff",
+                        "primary": "#f1ffef",
+                        "secondary-fixed": "#c3e8ff",
+                        "bg-base-light": "#F4F6F9",
+                        "on-tertiary-container": "#9021db",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#e5e2e1",
+                        "outline-variant": "#3b4b3d",
+                        "tertiary-container": "#f0d5ff",
+                        "on-primary-container": "#007138",
+                        "on-error": "#690005",
+                        "secondary-fixed-dim": "#7ad0ff",
+                        "surface-container-low": "#1c1b1b",
+                        "error": "#ffb4ab",
+                        "primary-container": "#00ff87",
+                        "secondary-container": "#00bdfd",
+                        "on-tertiary-fixed": "#2e004d",
+                        "on-secondary-container": "#004964",
+                        "on-secondary-fixed": "#001e2c",
+                        "surface-tint": "#00e478",
+                        "surface-container-highest": "#353535",
+                        "text-secondary-dark": "#A0A0A0",
+                        "tertiary-fixed": "#f2daff",
+                        "on-surface-variant": "#b9cbb9",
+                        "on-primary-fixed": "#00210c",
+                        "surface": "#131313",
+                        "primary-fixed": "#60ff98",
+                        "inverse-on-surface": "#313030",
+                        "surface-dim": "#131313",
+                        "on-tertiary-fixed-variant": "#6d00ac",
+                        "surface-variant": "#353535",
+                        "bg-surface-dark": "#0A0A0A",
+                        "bg-elevated-dark": "#111111",
+                        "background": "#131313",
+                        "accent-amber": "#E07B00",
+                        "on-secondary-fixed-variant": "#004c69",
+                        "tertiary": "#fffafb",
+                        "on-primary": "#003919",
+                        "on-tertiary": "#4c007b",
+                        "surface-bright": "#393939",
+                        "surface-container": "#20201f",
+                        "on-surface": "#e5e2e1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "section-gap": "24px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "base": "4px",
+                        "screen-edge": "20px"
+                    },
+                    "fontFamily": {
+                        "data-mono": ["JetBrains Mono"],
+                        "heading-2": ["Plus Jakarta Sans"],
+                        "display-xl": ["Bebas Neue"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "heading-1": ["Plus Jakarta Sans"],
+                        "display-lg": ["Bebas Neue"]
+                    },
+                    "fontSize": {
+                        "data-mono": ["13px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "heading-2": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display-xl": ["56px", {"lineHeight": "1.1", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"letterSpacing": "0.08em", "fontWeight": "500"}],
+                        "heading-1": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "display-lg": ["40px", {"lineHeight": "1.1", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .streak-glow {
+            filter: drop-shadow(0 0 20px rgba(0, 228, 120, 0.4));
+        }
+        .heat-cell {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+        }
+        body {
+            background-color: #000000;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-bg-base-dark text-on-surface font-body-lg">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-background flex justify-between items-center px-screen-edge py-sm w-full z-50">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center border border-outline-variant overflow-hidden">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="A macro close-up of a high-tech biometric identification interface. The image shows a stylized human profile rendered in thin, glowing green laser lines against a deep black background. Small data particles and floating numbers drift around the silhouette, emphasizing a scientific and athletic optimization aesthetic. The lighting is low-key with intense neon accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8BBAs8Kuw1u1fO-4EVs51igUy7SClpDRQQfDyGEYDNTWcTXNYGBXGa1OCWj_Cd1Ysy8qJhp0lfVltrhSkt8AJuehBZkVx5SkJpCgraXVhHhsaNzcLy9d_mWjzabMWqyeV6WEstl_zTO9PZN1NixXTS46ArTVk3piWimJKCLaXHon-kf1fgtBiVwb5t7h-CL3H5zO8TQvLQ_Tq67NoliigPDlLz8368QnUbwH6yE9ox23dO4gPrl1KPcvCfl5MfMjkPT_d7Ktg_C0"/>
+</div>
+</div>
+<h1 class="font-display-lg text-display-lg tracking-wider text-primary-fixed">TallUp</h1>
+<button class="material-symbols-outlined text-primary-fixed hover:opacity-80 transition-opacity scale-95 active:duration-100" data-icon="settings">settings</button>
+</header>
+<main class="px-screen-edge pb-[100px] flex flex-col gap-section-gap">
+<!-- Hero Streak Section -->
+<section class="mt-lg flex flex-col items-center">
+<div class="relative flex items-center justify-center">
+<!-- Large Flaming Streak Counter -->
+<div class="absolute inset-0 bg-primary-container/20 blur-[60px] rounded-full"></div>
+<div class="relative z-10 flex flex-col items-center">
+<span class="material-symbols-outlined text-[120px] text-primary-fixed-dim leading-none streak-glow" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<div class="text-center mt-[-20px]">
+<h2 class="font-display-xl text-display-xl text-primary-fixed">12</h2>
+<p class="font-label-caps text-label-caps text-primary-fixed-dim uppercase tracking-[0.2em]">Day Streak</p>
+</div>
+</div>
+</div>
+<p class="mt-md text-on-surface-variant font-body-lg text-center max-w-[280px]">You're in the top 5% of height-optimization athletes this week.</p>
+</section>
+<!-- GitHub Style Heatmap -->
+<section class="bg-surface-container-low p-md rounded-xl border border-outline-variant">
+<div class="flex justify-between items-center mb-md">
+<h3 class="font-heading-2 text-heading-2 text-text-primary-dark">Consistency</h3>
+<span class="font-data-mono text-data-mono text-primary-fixed-dim">94% Monthly</span>
+</div>
+<div class="flex flex-wrap gap-[4px] justify-center">
+<!-- Mockup of a heatmap grid -->
+<script>
+                    const heatmap = document.currentScript.parentElement;
+                    const levels = ['bg-surface-container-highest', 'bg-primary-fixed/20', 'bg-primary-fixed/40', 'bg-primary-fixed/70', 'bg-primary-fixed'];
+                    for(let i=0; i<35; i++) {
+                        const level = i > 28 ? levels[0] : levels[Math.floor(Math.random() * 5)];
+                        const div = document.createElement('div');
+                        div.className = `heat-cell ${level}`;
+                        heatmap.appendChild(div);
+                    }
+                </script>
+</div>
+<div class="flex justify-between mt-sm">
+<span class="text-[10px] font-label-caps text-on-surface-variant">Less</span>
+<div class="flex gap-1">
+<div class="heat-cell bg-surface-container-highest"></div>
+<div class="heat-cell bg-primary-fixed/20"></div>
+<div class="heat-cell bg-primary-fixed/40"></div>
+<div class="heat-cell bg-primary-fixed/70"></div>
+<div class="heat-cell bg-primary-fixed"></div>
+</div>
+<span class="text-[10px] font-label-caps text-on-surface-variant">More</span>
+</div>
+</section>
+<!-- Achievements Grid -->
+<section>
+<div class="flex justify-between items-end mb-md">
+<h3 class="font-heading-1 text-heading-1 text-text-primary-dark">Badges</h3>
+<span class="font-label-caps text-label-caps text-on-surface-variant">12 / 48 EARNED</span>
+</div>
+<div class="grid grid-cols-3 gap-md">
+<!-- Earned Badge 1 -->
+<div class="flex flex-col items-center gap-xs">
+<div class="w-full aspect-square bg-primary-container/10 border border-primary-fixed/30 rounded-xl flex items-center justify-center relative group">
+<div class="absolute inset-0 bg-primary-fixed/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
+<span class="material-symbols-outlined text-primary-fixed text-4xl" style="font-variation-settings: 'FILL' 1;">bedtime</span>
+</div>
+<span class="text-[10px] font-label-caps text-center text-on-surface-variant">Deep Sleep</span>
+</div>
+<!-- Earned Badge 2 -->
+<div class="flex flex-col items-center gap-xs">
+<div class="w-full aspect-square bg-primary-container/10 border border-primary-fixed/30 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed text-4xl" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<span class="text-[10px] font-label-caps text-center text-on-surface-variant">Macro King</span>
+</div>
+<!-- Earned Badge 3 -->
+<div class="flex flex-col items-center gap-xs">
+<div class="w-full aspect-square bg-primary-container/10 border border-primary-fixed/30 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed text-4xl" style="font-variation-settings: 'FILL' 1;">straighten</span>
+</div>
+<span class="text-[10px] font-label-caps text-center text-on-surface-variant">1cm Growth</span>
+</div>
+<!-- Locked Badge 4 -->
+<div class="flex flex-col items-center gap-xs opacity-40">
+<div class="w-full aspect-square bg-surface-container-high border border-outline-variant border-dashed rounded-xl flex items-center justify-center grayscale">
+<span class="material-symbols-outlined text-on-surface-variant text-4xl">lock</span>
+</div>
+<span class="text-[10px] font-label-caps text-center text-on-surface-variant">Locked</span>
+</div>
+<!-- Locked Badge 5 -->
+<div class="flex flex-col items-center gap-xs opacity-40">
+<div class="w-full aspect-square bg-surface-container-high border border-outline-variant border-dashed rounded-xl flex items-center justify-center grayscale">
+<span class="material-symbols-outlined text-on-surface-variant text-4xl">lock</span>
+</div>
+<span class="text-[10px] font-label-caps text-center text-on-surface-variant">Locked</span>
+</div>
+<!-- Locked Badge 6 -->
+<div class="flex flex-col items-center gap-xs opacity-40">
+<div class="w-full aspect-square bg-surface-container-high border border-outline-variant border-dashed rounded-xl flex items-center justify-center grayscale">
+<span class="material-symbols-outlined text-on-surface-variant text-4xl">lock</span>
+</div>
+<span class="text-[10px] font-label-caps text-center text-on-surface-variant">Locked</span>
+</div>
+</div>
+</section>
+<!-- Milestones Section -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-md overflow-hidden relative">
+<div class="absolute top-0 right-0 p-md opacity-20">
+<span class="material-symbols-outlined text-6xl text-primary-fixed">military_tech</span>
+</div>
+<h3 class="font-heading-2 text-heading-2 text-text-primary-dark mb-sm">Next Milestone</h3>
+<p class="text-on-surface-variant text-sm mb-md">Complete 3 more Sleep routines to unlock the "Nocturnal Titan" badge.</p>
+<div class="w-full bg-outline-variant h-2 rounded-full overflow-hidden">
+<div class="bg-primary-fixed h-full w-[75%]" style="box-shadow: 0 0 10px rgba(0,228,120,0.5)"></div>
+</div>
+<div class="flex justify-between mt-sm">
+<span class="font-data-mono text-[10px] text-primary-fixed">7/10 SESSIONS</span>
+<span class="font-data-mono text-[10px] text-on-surface-variant">75%</span>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-xs pb-safe bg-surface-container-lowest border-t border-outline-variant shadow-xl z-50 h-[80px]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps mt-1">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary-fixed-dim font-bold bg-primary-container/10 rounded-xl px-2 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="monitoring" style="font-variation-settings: 'FILL' 1;">monitoring</span>
+<span class="font-label-caps text-label-caps mt-1">Growth</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="event_repeat">event_repeat</span>
+<span class="font-label-caps text-label-caps mt-1">Routine</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="bedtime">bedtime</span>
+<span class="font-label-caps text-label-caps mt-1">Sleep</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant">restaurant</span>
+<span class="font-label-caps text-label-caps mt-1">Nutrition</span>
+</a>
+</nav>
+</body></html>

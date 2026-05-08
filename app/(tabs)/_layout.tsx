@@ -1,15 +1,18 @@
 /**
- * Tabs layout — add new tabs by:
- *   1. Create app/(tabs)/<name>.tsx
- *   2. Add a tabBarIcon and tabBarLabel in the <Tabs.Screen> below.
+ * TallUp Tabs Layout — 5 main tabs
  *
- * The custom TabBar renders itself — its tab list is driven entirely by
- * the screens registered here.
+ * Dashboard, Chart (Measurements), Routine, Sleep, Nutrition
  */
 import { Tabs } from 'expo-router'
-import { House, Compass, Bell, CircleUser } from 'lucide-react-native'
+import {
+  LayoutDashboard,
+  TrendingUp,
+  Dumbbell,
+  Moon,
+  Apple,
+} from 'lucide-react-native'
 import TabBar, { TAB_BAR_HEIGHT } from '@/components/TabBar'
-import { BG } from '@/lib/theme'
+import { dark } from '@/lib/theme'
 
 export default function TabsLayout() {
   return (
@@ -17,47 +20,56 @@ export default function TabsLayout() {
       tabBar={(props) => <TabBar {...props} />}
       screenOptions={{
         headerShown: false,
-        sceneStyle: { backgroundColor: BG },
-        // Extra bottom padding so content clears the floating tab bar
+        sceneStyle: { backgroundColor: dark.bgBase },
         tabBarStyle: { height: TAB_BAR_HEIGHT },
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          tabBarLabel: 'Home',
+          tabBarLabel: 'Dashboard',
           tabBarIcon: ({ color, size }) => (
-            <House size={size} color={color} strokeWidth={1.6} />
+            <LayoutDashboard size={size} color={color} strokeWidth={1.6} />
           ),
         }}
       />
 
       <Tabs.Screen
-        name="explore"
+        name="measurements"
         options={{
-          tabBarLabel: 'Explore',
+          tabBarLabel: 'Chart',
           tabBarIcon: ({ color, size }) => (
-            <Compass size={size} color={color} strokeWidth={1.6} />
+            <TrendingUp size={size} color={color} strokeWidth={1.6} />
           ),
         }}
       />
 
       <Tabs.Screen
-        name="activity"
+        name="routine"
         options={{
-          tabBarLabel: 'Activity',
+          tabBarLabel: 'Routine',
           tabBarIcon: ({ color, size }) => (
-            <Bell size={size} color={color} strokeWidth={1.6} />
+            <Dumbbell size={size} color={color} strokeWidth={1.6} />
           ),
         }}
       />
 
       <Tabs.Screen
-        name="profile"
+        name="sleep"
         options={{
-          tabBarLabel: 'Profile',
+          tabBarLabel: 'Sleep',
           tabBarIcon: ({ color, size }) => (
-            <CircleUser size={size} color={color} strokeWidth={1.6} />
+            <Moon size={size} color={color} strokeWidth={1.6} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="nutrition"
+        options={{
+          tabBarLabel: 'Nutrition',
+          tabBarIcon: ({ color, size }) => (
+            <Apple size={size} color={color} strokeWidth={1.6} />
           ),
         }}
       />

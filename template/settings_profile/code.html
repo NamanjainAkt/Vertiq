@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TallUp - Settings &amp; Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "text-primary-light": "#0D1117",
+                        "on-primary-fixed-variant": "#005227",
+                        "glow-red": "#FF3D5A",
+                        "error-container": "#93000a",
+                        "inverse-primary": "#006d36",
+                        "secondary": "#8bd5ff",
+                        "inverse-surface": "#e5e2e1",
+                        "text-primary-dark": "#FFFFFF",
+                        "surface-container-high": "#2a2a2a",
+                        "on-secondary": "#003549",
+                        "surface-container-lowest": "#0e0e0e",
+                        "primary-fixed-dim": "#00e478",
+                        "bg-base-dark": "#000000",
+                        "outline": "#849585",
+                        "tertiary-fixed-dim": "#e1b6ff",
+                        "primary": "#f1ffef",
+                        "secondary-fixed": "#c3e8ff",
+                        "bg-base-light": "#F4F6F9",
+                        "on-tertiary-container": "#9021db",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#e5e2e1",
+                        "outline-variant": "#3b4b3d",
+                        "tertiary-container": "#f0d5ff",
+                        "on-primary-container": "#007138",
+                        "on-error": "#690005",
+                        "secondary-fixed-dim": "#7ad0ff",
+                        "surface-container-low": "#1c1b1b",
+                        "error": "#ffb4ab",
+                        "primary-container": "#00ff87",
+                        "secondary-container": "#00bdfd",
+                        "on-tertiary-fixed": "#2e004d",
+                        "on-secondary-container": "#004964",
+                        "on-secondary-fixed": "#001e2c",
+                        "surface-tint": "#00e478",
+                        "surface-container-highest": "#353535",
+                        "text-secondary-dark": "#A0A0A0",
+                        "tertiary-fixed": "#f2daff",
+                        "on-surface-variant": "#b9cbb9",
+                        "on-primary-fixed": "#00210c",
+                        "surface": "#131313",
+                        "primary-fixed": "#60ff98",
+                        "inverse-on-surface": "#313030",
+                        "surface-dim": "#131313",
+                        "on-tertiary-fixed-variant": "#6d00ac",
+                        "surface-variant": "#353535",
+                        "bg-surface-dark": "#0A0A0A",
+                        "bg-elevated-dark": "#111111",
+                        "background": "#131313",
+                        "accent-amber": "#E07B00",
+                        "on-secondary-fixed-variant": "#004c69",
+                        "tertiary": "#fffafb",
+                        "on-primary": "#003919",
+                        "on-tertiary": "#4c007b",
+                        "surface-bright": "#393939",
+                        "surface-container": "#20201f",
+                        "on-surface": "#e5e2e1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "section-gap": "24px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "base": "4px",
+                        "screen-edge": "20px"
+                    },
+                    "fontFamily": {
+                        "data-mono": ["JetBrains Mono"],
+                        "heading-2": ["Plus Jakarta Sans"],
+                        "display-xl": ["Bebas Neue"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "heading-1": ["Plus Jakarta Sans"],
+                        "display-lg": ["Bebas Neue"]
+                    },
+                    "fontSize": {
+                        "data-mono": ["13px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "heading-2": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "display-xl": ["56px", {"lineHeight": "1.1", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"letterSpacing": "0.08em", "fontWeight": "500"}],
+                        "heading-1": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "display-lg": ["40px", {"lineHeight": "1.1", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glow-primary {
+            box-shadow: 0 0 20px rgba(0, 228, 120, 0.2);
+        }
+        .glow-secondary {
+            box-shadow: 0 0 20px rgba(139, 213, 255, 0.2);
+        }
+        .bg-glass {
+            backdrop-filter: blur(12px);
+            background: rgba(19, 19, 19, 0.8);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-lg min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-background z-50 flex justify-between items-center px-screen-edge py-sm w-full">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-primary-fixed">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="A high-contrast cinematic portrait of a young athletic male with focused intensity, set against a dark, minimalist architectural backdrop. The lighting is dramatic, with cool cyan and neon green biometric data overlays projected subtly across the skin. The overall aesthetic is medical-grade precision combined with high-performance sports technology, mirroring a dark-mode biometric dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDAEyx9-FujWr4zYM31PySpQeyKm39lwchVXFlsBBh0Sz64eRZvqb7EkjgQazbr2B4d6z1kmxW1FeHL9JYDuwuKO8g9-Nb1iCgxJWQT0XVAB5MH5MbyydXFp0DyKUizQspR7bv2vaxwY-0CpHllPt2AH5-9NIglauDwhWQR1OPq2p2xNaPU-wU6O4KUDvs6DznK1k_5KmP4lBmPiHeU9IYiEVz_18XpTgOYl9P2lSrhQGDrSBkA6poxFsDTh0opJDTRwRs4pCBIbg"/>
+</div>
+<h1 class="font-display-lg text-display-lg tracking-wider text-primary-fixed uppercase">TallUp</h1>
+</div>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-primary-fixed transition-opacity hover:opacity-80 active:scale-95 duration-100" data-icon="settings">settings</button>
+</div>
+</header>
+<main class="px-screen-edge space-y-section-gap pt-md">
+<!-- Profile Hero Section -->
+<section class="relative overflow-hidden rounded-xl bg-surface-container-low border border-outline-variant p-md">
+<div class="flex items-start justify-between">
+<div>
+<h2 class="font-heading-1 text-heading-1 text-text-primary-dark">Alex Chen</h2>
+<p class="font-data-mono text-data-mono text-on-surface-variant">ELITE PERFORMANCE TIER</p>
+</div>
+<div class="bg-primary-container/20 text-primary-fixed px-sm py-xs rounded-lg border border-primary-fixed/30">
+<span class="font-data-mono text-data-mono">ID: 8821-X</span>
+</div>
+</div>
+<!-- Biometric Summary Bento -->
+<div class="grid grid-cols-2 gap-md mt-lg">
+<div class="bg-surface-container-high p-md rounded-xl border border-outline-variant glow-primary">
+<span class="material-symbols-outlined text-primary-fixed-dim mb-sm" data-icon="height">height</span>
+<p class="text-on-surface-variant font-label-caps text-label-caps uppercase">Current Height</p>
+<p class="font-display-lg text-display-lg text-primary-fixed-dim">184<span class="text-heading-2">cm</span></p>
+</div>
+<div class="bg-surface-container-high p-md rounded-xl border border-outline-variant glow-secondary">
+<span class="material-symbols-outlined text-secondary mb-sm" data-icon="show_chart">show_chart</span>
+<p class="text-on-surface-variant font-label-caps text-label-caps uppercase">Growth Velocity</p>
+<p class="font-display-lg text-display-lg text-secondary">+1.2<span class="text-heading-2">cm/yr</span></p>
+</div>
+</div>
+</section>
+<!-- Height Goal Editor -->
+<section class="space-y-md">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase px-xs">Performance Targets</h3>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md">
+<div class="flex justify-between items-center mb-md">
+<span class="font-heading-2 text-heading-2 text-text-primary-dark">Height Goal</span>
+<span class="font-data-mono text-data-mono text-primary-fixed-dim bg-primary-fixed/10 px-sm py-xs rounded">ACTIVE</span>
+</div>
+<div class="flex items-end gap-sm mb-lg">
+<input class="bg-surface-container-high text-primary-fixed-dim font-display-xl text-display-xl w-32 border-none focus:ring-2 focus:ring-primary-fixed rounded-lg p-sm" type="number" value="190"/>
+<span class="font-heading-1 text-heading-1 mb-sm text-on-surface-variant">CM</span>
+</div>
+<div class="w-full bg-outline-variant h-1 rounded-full relative">
+<div class="absolute left-0 top-0 h-full bg-primary-fixed shadow-[0_0_8px_rgba(0,228,120,0.6)] w-3/4 rounded-full"></div>
+</div>
+<div class="flex justify-between mt-sm">
+<span class="font-data-mono text-data-mono text-on-surface-variant">184cm (Start)</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant">Target: 190cm</span>
+</div>
+</div>
+</section>
+<!-- Preferences List -->
+<section class="space-y-md">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase px-xs">Global Preferences</h3>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl divide-y divide-outline-variant">
+<!-- Unit Toggle -->
+<div class="flex items-center justify-between p-md">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="straighten">straighten</span>
+<div>
+<p class="text-text-primary-dark font-body-lg">Measurement Units</p>
+<p class="text-on-surface-variant text-sm">Metric (cm, kg)</p>
+</div>
+</div>
+<div class="bg-surface-container-high flex p-1 rounded-lg border border-outline-variant">
+<button class="px-md py-xs bg-primary-fixed text-on-primary-fixed rounded-md text-sm font-bold">Metric</button>
+<button class="px-md py-xs text-on-surface-variant text-sm font-bold">Imperial</button>
+</div>
+</div>
+<!-- Theme Toggle -->
+<div class="flex items-center justify-between p-md">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="dark_mode">dark_mode</span>
+<div>
+<p class="text-text-primary-dark font-body-lg">Interface Theme</p>
+<p class="text-on-surface-variant text-sm">High-Contrast Dark</p>
+</div>
+</div>
+<button class="w-12 h-6 bg-primary-fixed/20 border border-primary-fixed/40 rounded-full relative transition-colors">
+<div class="absolute right-1 top-1 w-4 h-4 bg-primary-fixed rounded-full shadow-[0_0_8px_rgba(0,228,120,0.4)]"></div>
+</button>
+</div>
+<!-- Notifications -->
+<div class="flex items-center justify-between p-md">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+<div>
+<p class="text-text-primary-dark font-body-lg">Growth Alerts</p>
+<p class="text-on-surface-variant text-sm">Real-time sync enabled</p>
+</div>
+</div>
+<button class="w-12 h-6 bg-surface-container-high border border-outline-variant rounded-full relative transition-colors">
+<div class="absolute left-1 top-1 w-4 h-4 bg-outline rounded-full"></div>
+</button>
+</div>
+</div>
+</section>
+<!-- Danger Zone -->
+<section class="space-y-md pt-lg">
+<button class="w-full py-md px-lg rounded-xl border border-glow-red/30 bg-glow-red/5 flex items-center justify-center gap-md text-glow-red hover:bg-glow-red/10 transition-colors">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-heading-2 text-heading-2">TERMINATE SESSION</span>
+</button>
+<p class="text-center font-data-mono text-data-mono text-on-surface-variant opacity-40">TALLUP CORE ENGINE V2.4.0-STABLE</p>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-xs pb-safe bg-surface-container-lowest border-t border-outline-variant shadow-xl z-50 h-[80px]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps uppercase">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span class="font-label-caps text-label-caps uppercase">Growth</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="event_repeat">event_repeat</span>
+<span class="font-label-caps text-label-caps uppercase">Routine</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary-fixed transition-colors active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="bedtime">bedtime</span>
+<span class="font-label-caps text-label-caps uppercase">Sleep</span>
+</a>
+<!-- ACTIVE TAB: Profile (Nutrition/Profile Context) -->
+<a class="flex flex-col items-center justify-center text-primary-fixed-dim font-bold bg-primary-container/10 rounded-xl px-2 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+<span class="font-label-caps text-label-caps uppercase">Nutrition</span>
+</a>
+</nav>
+</body></html>
