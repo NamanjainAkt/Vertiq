@@ -21,6 +21,7 @@ import { Fonts } from '@/lib/typography'
 import { supabase } from '@/lib/supabase'
 import { track } from '@/lib/analytics'
 import { Ionicons } from '@expo/vector-icons'
+import { updateTallUpProfile } from '@/lib/api/tallup'
 
 const STEPS = ['Basic Info', 'Measurements', 'Goals']
 const SEX_OPTIONS = ['Male', 'Female']
@@ -80,24 +81,47 @@ export default function ProfileSetupScreen() {
     setError(null)
     track('profile_setup_completed')
 
+    const user = (await supabase.auth.getUser()).data.user
+    if (!user) {
+      setError('Not authenticated. Please try again.')
+      setSaving(false)
+      return
+    }
+
+    const commitmentDays = commitment === '3 days/week' ? 3 : commitment === '5 days/week' ? 5 : 7
+
     const { error: err } = await supabase.auth.updateUser({
       data: {
         onboarding_completed: true,
+        full_name: user.user_metadata?.full_name ?? '',
         age: parseInt(age, 10),
         biological_sex: sex,
         ethnicity: ethnicity || undefined,
         height_cm: parseFloat(heightCm),
         weight_kg: weight ? parseFloat(weight) : undefined,
         goal_height_cm: parseInt(goalHeight, 10),
-        commitment_days: commitment === '3 days/week' ? 3 : commitment === '5 days/week' ? 5 : 7,
+        commitment_days: commitmentDays,
       },
     })
 
-    setSaving(false)
     if (err) {
+      setSaving(false)
       setError('Could not save. Please try again.')
       return
     }
+
+    await updateTallUpProfile(user.id, {
+      display_name: user.user_metadata?.full_name || null,
+      age: parseInt(age, 10),
+      biological_sex: sex,
+      ethnicity: ethnicity || null,
+      height_cm: parseFloat(heightCm),
+      weight_kg: weight ? parseFloat(weight) : null,
+      goal_height_cm: parseInt(goalHeight, 10),
+      commitment_days: commitmentDays,
+    })
+
+    setSaving(false)
     // _layout.tsx picks up onboarding_completed and routes to (tabs)
   }
 

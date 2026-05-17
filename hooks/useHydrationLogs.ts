@@ -21,7 +21,7 @@ export function useLogHydration() {
   const user = useUser()
 
   return useMutation({
-    mutationFn: (log: HydrationLogInsert) => api.upsertHydrationLog(log),
+    mutationFn: (log: HydrationLogInsert) => api.upsertHydrationLog(user!.id, log),
     onSuccess: () => qc.invalidateQueries({ queryKey: [...queryKey, user?.id] }),
   })
 }

@@ -31,7 +31,7 @@ export default function SettingsScreen() {
   const [weeklyReport, setWeeklyReport] = useState(false)
   const [unit, setUnit] = useState<'cm' | 'ft'>('cm')
   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
-  const [goalHeight, setGoalHeight] = useState(180)
+  const [goalHeight, setGoalHeight] = useState(profile?.goalHeightCm ?? 180)
 
   const handleLogout = async () => {
     track('logout')

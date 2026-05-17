@@ -61,11 +61,11 @@ export async function fetchHeightLogsRange(userId: string, days: number): Promis
   }, [])
 }
 
-export async function insertHeightLog(log: HeightLogInsert): Promise<HeightLog | null> {
+export async function insertHeightLog(userId: string, log: HeightLogInsert): Promise<HeightLog | null> {
   return guardedQuery(async () => {
     const { data, error } = await supabase
       .from('height_logs')
-      .insert(log)
+      .insert({ ...log, user_id: userId })
       .select()
       .maybeSingle()
     if (error) throw error
@@ -111,11 +111,11 @@ export async function fetchSleepLogsRange(userId: string, days: number): Promise
   }, [])
 }
 
-export async function insertSleepLog(log: SleepLogInsert): Promise<SleepLog | null> {
+export async function insertSleepLog(userId: string, log: SleepLogInsert): Promise<SleepLog | null> {
   return guardedQuery(async () => {
     const { data, error } = await supabase
       .from('sleep_logs')
-      .insert(log)
+      .insert({ ...log, user_id: userId })
       .select()
       .maybeSingle()
     if (error) throw error
@@ -170,11 +170,11 @@ export async function fetchTodayRoutine(userId: string): Promise<RoutineLog | nu
   }, null)
 }
 
-export async function upsertRoutineLog(log: RoutineLogInsert): Promise<RoutineLog | null> {
+export async function upsertRoutineLog(userId: string, log: RoutineLogInsert): Promise<RoutineLog | null> {
   return guardedQuery(async () => {
     const { data, error } = await supabase
       .from('routine_logs')
-      .upsert(log, { onConflict: 'user_id,logged_date' })
+      .upsert({ ...log, user_id: userId }, { onConflict: 'user_id,logged_date' })
       .select()
       .maybeSingle()
     if (error) throw error
@@ -208,11 +208,11 @@ export async function fetchTodayNutrition(userId: string): Promise<NutritionLog[
   }, [])
 }
 
-export async function insertNutritionLog(log: NutritionLogInsert): Promise<NutritionLog | null> {
+export async function insertNutritionLog(userId: string, log: NutritionLogInsert): Promise<NutritionLog | null> {
   return guardedQuery(async () => {
     const { data, error } = await supabase
       .from('nutrition_logs')
-      .insert(log)
+      .insert({ ...log, user_id: userId })
       .select()
       .maybeSingle()
     if (error) throw error
@@ -235,11 +235,11 @@ export async function fetchHydrationLog(userId: string): Promise<HydrationLog | 
   }, null)
 }
 
-export async function upsertHydrationLog(log: HydrationLogInsert): Promise<HydrationLog | null> {
+export async function upsertHydrationLog(userId: string, log: HydrationLogInsert): Promise<HydrationLog | null> {
   return guardedQuery(async () => {
     const { data, error } = await supabase
       .from('hydration_logs')
-      .upsert(log, { onConflict: 'user_id,logged_date' })
+      .upsert({ ...log, user_id: userId }, { onConflict: 'user_id,logged_date' })
       .select()
       .maybeSingle()
     if (error) throw error
@@ -260,11 +260,11 @@ export async function fetchStreaks(userId: string): Promise<Streak[]> {
   }, [])
 }
 
-export async function upsertStreak(streak_type: Streak['streak_type'], current_count: number, longest_count: number): Promise<Streak | null> {
+export async function upsertStreak(userId: string, streak_type: Streak['streak_type'], current_count: number, longest_count: number): Promise<Streak | null> {
   return guardedQuery(async () => {
     const { data, error } = await supabase
       .from('streaks')
-      .upsert({ streak_type, current_count, longest_count, last_activity_date: todayStr() }, { onConflict: 'user_id,streak_type' })
+      .upsert({ user_id: userId, streak_type, current_count, longest_count, last_activity_date: todayStr() }, { onConflict: 'user_id,streak_type' })
       .select()
       .maybeSingle()
     if (error) throw error
@@ -285,11 +285,11 @@ export async function fetchAchievements(userId: string): Promise<Achievement[]> 
   }, [])
 }
 
-export async function insertAchievement(achievement_key: string): Promise<Achievement | null> {
+export async function insertAchievement(userId: string, achievement_key: string): Promise<Achievement | null> {
   return guardedQuery(async () => {
     const { data, error } = await supabase
       .from('achievements')
-      .insert({ achievement_key })
+      .insert({ user_id: userId, achievement_key })
       .select()
       .maybeSingle()
     if (error) throw error

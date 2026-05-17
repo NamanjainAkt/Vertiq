@@ -14,13 +14,13 @@
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.yourcompany.myapp",
+      "bundleIdentifier": "com.tallup.app",
       "associatedDomains": [
-        "applinks:REPLACE_WITH_YOUR_DOMAIN"
+        "applinks:tallup.app"
       ]
     },
     "android": {
-      "package": "com.yourcompany.myapp",
+      "package": "com.tallup.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#0d0d0d"
@@ -30,18 +30,13 @@
         "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.WRITE_EXTERNAL_STORAGE"
       ],
-      "androidStatusBar": {
-        "barStyle": "light-content",
-        "backgroundColor": "#0d0d0d",
-        "translucent": true
-      },
       "predictiveBackGestureEnabled": false,
       "intentFilters": [
         {
           "action": "VIEW",
           "autoVerify": true,
           "data": [
-            { "scheme": "myapp" }
+            { "scheme": "tallup" }
           ],
           "category": ["BROWSABLE", "DEFAULT"]
         }
@@ -80,6 +75,6 @@
         "projectId": "REPLACE_WITH_YOUR_EAS_PROJECT_ID"
       }
     },
-    "owner": "REPLACE_WITH_YOUR_EXPO_OWNER"
+    "owner": "tallup"
   }
 }

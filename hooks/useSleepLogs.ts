@@ -38,7 +38,7 @@ export function useLogSleep() {
   const user = useUser()
 
   return useMutation({
-    mutationFn: (log: SleepLogInsert) => api.insertSleepLog(log),
+    mutationFn: (log: SleepLogInsert) => api.insertSleepLog(user!.id, log),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: [...queryKey, user?.id] })
       qc.invalidateQueries({ queryKey: ['streaks', user?.id] })

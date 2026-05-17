@@ -15,6 +15,7 @@ export interface TallUpProfile {
   commitment_days: number
   plan_type: 'free' | 'premium'
   created_at: string
+  updated_at: string
 }
 
 // ── Height ──────────────────────────────────────────────────────────────────

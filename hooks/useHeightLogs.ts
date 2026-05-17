@@ -38,7 +38,7 @@ export function useLogHeight() {
   const user = useUser()
 
   return useMutation({
-    mutationFn: (log: HeightLogInsert) => api.insertHeightLog(log),
+    mutationFn: (log: HeightLogInsert) => api.insertHeightLog(user!.id, log),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: [...queryKey, user?.id] })
       qc.invalidateQueries({ queryKey: ['streaks', user?.id] })

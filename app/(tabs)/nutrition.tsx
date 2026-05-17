@@ -212,7 +212,7 @@ function NutritionScore({ logs }: { logs: NutritionLog[] }) {
   const score = useMemo(() => {
     if (logs.length === 0) return 0
     const uniqueNutrients = new Set(logs.map((l) => l.nutrient))
-    return Math.min(Math.round((uniqueNutrients.size / 5) * 100), 100)
+    return Math.min(Math.round((uniqueNutrients.size / 6) * 100), 100)
   }, [logs])
 
   const offset = ((100 - score) / 100) * D_CIRCUM

@@ -10,6 +10,7 @@ import {
   Dumbbell,
   Moon,
   Apple,
+  User,
 } from 'lucide-react-native'
 import TabBar, { TAB_BAR_HEIGHT } from '@/components/TabBar'
 import { dark } from '@/lib/theme'
@@ -70,6 +71,16 @@ export default function TabsLayout() {
           tabBarLabel: 'Nutrition',
           tabBarIcon: ({ color, size }) => (
             <Apple size={size} color={color} strokeWidth={1.6} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="profile"
+        options={{
+          tabBarLabel: 'Profile',
+          tabBarIcon: ({ color, size }) => (
+            <User size={size} color={color} strokeWidth={1.6} />
           ),
         }}
       />

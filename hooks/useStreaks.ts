@@ -28,7 +28,7 @@ export function useUpdateStreak() {
 
   return useMutation({
     mutationFn: ({ streak_type, current_count, longest_count }: { streak_type: StreakType; current_count: number; longest_count: number }) =>
-      api.upsertStreak(streak_type, current_count, longest_count),
+      api.upsertStreak(user!.id, streak_type, current_count, longest_count),
     onSuccess: () => qc.invalidateQueries({ queryKey: [...queryKey, user?.id] }),
   })
 }

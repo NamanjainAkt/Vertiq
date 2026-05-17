@@ -20,7 +20,7 @@ export function useUnlockAchievement() {
   const user = useUser()
 
   return useMutation({
-    mutationFn: (achievement_key: string) => api.insertAchievement(achievement_key),
+    mutationFn: (achievement_key: string) => api.insertAchievement(user!.id, achievement_key),
     onSuccess: () => qc.invalidateQueries({ queryKey: [...queryKey, user?.id] }),
   })
 }

@@ -32,7 +32,7 @@ export function useCompleteRoutine() {
   const user = useUser()
 
   return useMutation({
-    mutationFn: (log: RoutineLogInsert) => api.upsertRoutineLog(log),
+    mutationFn: (log: RoutineLogInsert) => api.upsertRoutineLog(user!.id, log),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: [...queryKey, user?.id] })
       qc.invalidateQueries({ queryKey: ['streaks', user?.id] })

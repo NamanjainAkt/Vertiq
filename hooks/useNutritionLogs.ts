@@ -32,7 +32,7 @@ export function useLogNutrition() {
   const user = useUser()
 
   return useMutation({
-    mutationFn: (log: NutritionLogInsert) => api.insertNutritionLog(log),
+    mutationFn: (log: NutritionLogInsert) => api.insertNutritionLog(user!.id, log),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: [...queryKey, user?.id] })
       qc.invalidateQueries({ queryKey: ['streaks', user?.id] })
